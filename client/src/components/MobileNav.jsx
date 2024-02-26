@@ -9,7 +9,7 @@ export default function MobileNav() {
       <Link to="/item-scan" className="bloc-icon">
         <img src="/camera.svg" alt="" />
       </Link>
-      <Link to="/notifications" className="bloc-icon">
+      <Link to="/storage" className="bloc-icon">
         <img src="/inboxes.svg" alt="" />
       </Link>
       <Link to="/shopping" className="bloc-icon">

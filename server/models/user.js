@@ -20,22 +20,34 @@ const userSchema = Schema(
       type: String,
       required: true,
     },
-    items: [
+    storage: [
       {
-        item_name: {
+        storage_name: {
           type: String,
           required: true,
         },
-        category: {
-          type: String,
-          required: false,
-        },
-        expiryDays: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+        items: [
+          {
+            item_name: {
+              type: String,
+              required: true,
+            },
+            category: {
+              type: String,
+              required: false,
+            },
+            expiryDays: {
+              type: Number,
+              required: true,
+            },
+            quantity: {
+              type: Number,
+              required: true,
+            }
+          },
+        ],
+      }
+    ]
   },
   { timestamps: true }
 );

@@ -6,6 +6,7 @@ const openaiRoute = require("./routes/openAi");
 const userRoute = require("./routes/userRoutes")
 const mongoose = require("mongoose");
 const { error } = require("console");
+const cookieParser = require('cookie-parser')
 
 // Express App
 const app = express();
@@ -28,6 +29,7 @@ app.use(cors(
     credentials: true,
   }
 )); // Enable CORS for all routes
+app.use(cookieParser())
 
 // Connect to db
 mongoose

@@ -10,11 +10,13 @@ import RegisterPage from "./pages/RegisterPage";
 import ItemScanPage from "./pages/ItemScanPage";
 import MobileNav from "./components/MobileNav";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
+import StoragePage from "./pages/StoragePage";
+import  StorageItemsPage  from "./pages/StorageItemsPage";
 
 
 function App() {
   return (
-    <>
+    <div className="app">
       <Navbar />
       
       <Routes>
@@ -23,10 +25,12 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/item-scan" element={<ItemScanPage/>} />
         <Route path="/shopping" element={<ShoppingCartPage/>} />
+        <Route path="/storage" element={<StoragePage/>} />
+        <Route path="/storage/:storage_name" element={<StorageItemsPage/>} />
       </Routes>
       <Footer/>
       <MobileNav/>
-    </>
+    </div>
   );
 }
 

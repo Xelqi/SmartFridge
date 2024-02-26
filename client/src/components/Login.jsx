@@ -7,10 +7,10 @@ export default function Login() {
   });
 
   const handleChange = (e) => {
-    const { fieldName, fieldValue } = e.target;
+    const { name, value } = e.target; // Use e.target.name and e.target.value
     setUserCredentials(prevCredentials => ({
       ...prevCredentials,
-      [fieldName]: fieldValue
+      [name]: value // Use name as key to update the corresponding state field
     }));
   };
 
@@ -30,6 +30,7 @@ export default function Login() {
       const data = await response.json();
       // Handle successful login, e.g., redirect to dashboard
       console.log(data.token); // Token received from server
+      window.location.href = "/"; // Redirect to homepage
     } catch (error) {
       console.error('Error:', error); // Handle error
     }

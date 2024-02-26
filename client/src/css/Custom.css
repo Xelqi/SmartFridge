@@ -1,4 +1,13 @@
 /* 
+    Page Settings for Root
+*/
+
+.app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 
     Mobile Nav Bar
 */
 .mobile-nav {
@@ -23,4 +32,3 @@
     display: none;
   }
 }
-

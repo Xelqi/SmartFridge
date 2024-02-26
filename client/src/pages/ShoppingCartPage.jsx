@@ -1,9 +1,7 @@
-import Sidebar from "../components/Sidebar"
-
 const ShoppingCartPage = () => {
   return (
     <div>
-        <Sidebar/>
+      Shopping Cart
     </div>
   )
 }
