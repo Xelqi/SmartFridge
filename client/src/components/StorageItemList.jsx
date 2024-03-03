@@ -97,10 +97,13 @@ export default function StorageItemList() {
       {items.map((item) => (
         <div
           key={item._id}
-          className="list-group-item d-flex justify-content-between"
+          className="list-group-item d-flex justify-content-between align-items-center"
         >
           {/* Item details */}
-          <div className="d-flex align-items-center">
+          <div
+            className="d-flex align-items-center"
+            onClick={() => handleDivClick(item._id)}
+          >
             {/* Image */}
             <img
               src="/gem.svg"
@@ -108,13 +111,12 @@ export default function StorageItemList() {
               style={{ marginRight: "10px" }}
             />
             {/* Item name and expiry days */}
-            <div
-              className="display-flex"
-              onClick={() => handleDivClick(item._id)}
-            >
+            <div className="d-flex flex-column">
               <h5 className="mb-0">{item.item_name}</h5>
-              <small className="mb-1">Expires in: {item.expiryDays} days</small>
-              <small className="mx-4">Quantity: {item.quantity}</small>
+              <div className="d-flex align-items-center">
+              <h6 className="me-3">Expiry: {item.expiryDays} days</h6>
+              <h6 className="">Quantity: {item.quantity}</h6>
+              </div>
             </div>
           </div>
           {/* Delete button */}

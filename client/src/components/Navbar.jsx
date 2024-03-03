@@ -18,7 +18,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-sm bg-body-tertiary">
+    <nav className="navbar navbar-expand-sm bg-body-secondary">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -31,7 +31,7 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand d-none d-sm-block">
           <img
             src="/vite.svg"
             alt="logo"
@@ -41,6 +41,7 @@ export default function Navbar() {
           />
           Smart Fridge
         </Link>
+         {/* Off Canvas Navbar */}
         <div
           className="offcanvas offcanvas-start"
           tabIndex="-1"
@@ -48,104 +49,98 @@ export default function Navbar() {
           aria-labelledby="navbarNavLabel"
           style={{ width: "50%" }}
         >
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="navbarNavLabel">
-              Menu
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
+        <div className="offcanvas-body pe-1 pt-1 pb-0 ps-2">
+          <div className="d-flex">
+          {/* <h4 className="mx-auto mb-0" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Smart Fridge</h4> */}
+          <button
+                    type="button"
+                    className="btn-close d-flex ms-auto d-sm-none"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+          ></button>
           </div>
-          <div className="offcanvas-body">
             <ul className="navbar-nav">
             <li className="nav-item">
-                <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+                <Link to="/" className={`pt-sm-0 d-flex nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                   <img
                     src="/house.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Home
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Home</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/item-scan" className={`nav-link ${location.pathname === '/item-scan' ? 'active' : ''}`}>
+                <Link to="/item-scan" className={`py-sm-0 d-flex nav-link ${location.pathname === '/item-scan' ? 'active' : ''}`}>
                   <img
                     src="/camera.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Scan Items
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Quick Add</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/storage" className={`nav-link ${location.pathname === '/storage' ? 'active' : ''}`}>
+                <Link to="/storage" className={`py-sm-0 d-flex nav-link ${location.pathname === '/storage' ? 'active' : ''}`}>
                   <img
                     src="/inboxes.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Storage
-                </Link>
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Storage</p>
+                </Link>                
               </li>
               <li className="nav-item">
                 <Link
                   to="/shopping"
-                  className={`nav-link ${location.pathname === '/shopping' ? 'active' : ''}`}
+                  className={`py-sm-0 d-flex nav-link ${location.pathname === '/shopping' ? 'active' : ''}`}
                 >
                   <img
-                    src="/handbag.svg"
+                    src="/cart3.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Shopping
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Shopping List</p>
                 </Link>
+                
               </li>
-              <hr/>
+              <hr className="my-1 d-sm-none" style={{transform: 'translateX(-2vw)', width: '49.3vw'}}/>
               <li className="nav-item">
-                <Link to="/register" className={`nav-link ${location.pathname === '/register' ? 'active' : ''}`}>
+                <Link to="/register" className={`py-sm-0 d-flex nav-link ${location.pathname === '/register' ? 'active' : ''}`}>
                   <img
                     src="/key.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Register
-                </Link>
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Register</p>
+                </Link>          
               </li>
               <li className="nav-item">
-                <Link to="/login" className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
+                <Link to="/login" className={`py-sm-0 d-flex nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
                   <img
                     src="/arrow-bar-right.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Login
-                </Link>
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Login</p>
+                </Link>               
               </li>
               <li className="nav-item">
-                <button onClick={handleLogout} className="nav-link">
+                <button onClick={handleLogout} className="py-sm-0 nav-link d-flex">
                   <img
                     src="/arrow-bar-left.svg"
                     alt=""
                     className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "20px" }}
+                    style={{ paddingRight: "5vw" }}
                   />
-                  Log Out
+                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Logout</p>
                 </button>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link disabled" aria-disabled="true">
-                  Disabled
-                </Link>
               </li>
             </ul>
           </div>
