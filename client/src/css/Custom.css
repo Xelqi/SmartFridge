@@ -7,29 +7,77 @@
   overflow: hidden;
 }
 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  color: black;
+}
+/* Main Navbar */
+
+/* Primary background color for large screens */
+@media (min-width: 768px) {
+  #navbar-top {
+    background-color: #fe724c !important; /* Your primary color for large screens */
+  }
+}
+
+.nav-link {
+  transition: transform 0.5s ease; /* Transition effect only for transform */
+}
+
+.nav-link.active p {
+  color: #fe724c !important;
+  transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+}
+
+@media (min-width: 768px) {
+  .nav-link.active p {
+    color: white !important;
+    transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+  }
+}
+
+.nav-link.active img {
+  transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+}
+
+.nav-link.active:hover {
+  transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+}
 /* 
     Mobile Nav Bar
 */
-.mobile-nav {
-  background: #f1f1f1;
-  position: fixed;
-  bottom: 0;
-  height: 65px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
 
-.bloc-icon {
+.navbar-brand {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transition: transform 0.5s ease; /* Transition effect only for transform */
 }
 
+.navbar-brand:hover {
+  transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+}
 
-@media screen and (min-width: 575px) {
-  .mobile-nav {
-    display: none;
+.navbar-brand.active img {
+  filter: brightness(0) invert(1); /* Change image color when active */
+  transform: scale(1.1); /* Scale the icon slightly bigger on hover */
+}
+
+#navbarNav {
+  background-color: #ffece7;
+}
+
+@media (min-width: 768px) {
+  #navbarNav {
+    width: 30% !important;
   }
 }
 

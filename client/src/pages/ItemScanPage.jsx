@@ -1,8 +1,8 @@
-import ItemList from "../components/ItemList";
+import ItemScanList from "../components/ItemScanList";
 
 const ItemScanPage = () => {
   return (
-    <ItemList/>
+    <ItemScanList/>
   )
 }
 

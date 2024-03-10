@@ -51,7 +51,7 @@ export default function AddStorage({ onAddStorage }) {
             maxWidth: "500px",
           }}
         >
-          <div className="modal-content">
+          <div className="modal-content bg-secondary">
             <div className="modal-header">
               <h5 className="modal-title">Enter storage name</h5>
               <button
@@ -64,23 +64,23 @@ export default function AddStorage({ onAddStorage }) {
             <div className="modal-body">
               <input
                 type="text"
-                placeholder="Example: Fridge"
+                placeholder="Fridge"
                 value={inputValue}
                 onChange={handleInputChange}
-                className="form-control"
+                className="form-control border-warning border-opacity-50"
               />
             </div>
             <div className="modal-footer justify-content-center">
               <button
                 type="button"
-                className="btn btn-success"
+                className="btn btn-primary border-warning border-opacity-50"
                 onClick={handleSave}
               >
                 <h5 className="mb-0">Create</h5>
               </button>
               <button
                 type="button"
-                className="btn btn-danger"
+                className="btn btn-warning border-opacity-10"
                 onClick={() => setIsModalOpen(false)}
               >
                 <h5 className="mb-0">Cancel</h5>
@@ -89,10 +89,10 @@ export default function AddStorage({ onAddStorage }) {
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-center mt-5">
+      <div className="fixed-bottom text-center" style={{ marginBottom: "10vh" }}>
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-primary"
           onClick={() => setIsModalOpen(true)}
         >
           <h5 className="p-0 mb-1">Create New Storage</h5>

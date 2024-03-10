@@ -5,7 +5,16 @@
 // Custom variables
 // $body-bg: #c76b6b;
 // $body-color: #4a1111;
+$theme-colors: (
+    "primary": #FE724C,
+    "secondary": #ffece7,
+    "warning":  rgb(4,4,15,40%)
+);
+// $body-bg-dark: rgba(255, 255, 255, 0);
 
-// $dark-body-bg: #f2f2f2;
+// $body-secondary-bg-dark: rgba(255, 255, 255, 0);
+
+// $body-bg: rgba(255, 255, 255, 0); // Transparent white background
+
 // Import Bootstrap
 @import '../../node_modules/bootstrap/scss/bootstrap';

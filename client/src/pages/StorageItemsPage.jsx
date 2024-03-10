@@ -1,10 +1,10 @@
-import StorageItemList from "../components/StorageItemList";
+import StorageItems from "../components/StorageItems";
 
 const StorageItemsPage = () => {
   return (
     <div className="row">
         <div className="col-11 mx-auto my-2">
-        <StorageItemList />
+        <StorageItems />
         </div>
     </div>
   );

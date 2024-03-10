@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'; // Import PropTypes
 import { Link } from "react-router-dom";
 
 
-export default function StorageList({storages}) {
+export default function Storages({storages}) {
   // Function to count expiring items in a storage
   function countExpiringItems(items) {
     let count = 0;
@@ -15,7 +15,7 @@ export default function StorageList({storages}) {
   }
   
   // PropTypes validation
-StorageList.propTypes = {
+Storages.propTypes = {
   storages: PropTypes.array.isRequired, // Validate that storages is an array and is required
 };
 
@@ -24,7 +24,7 @@ StorageList.propTypes = {
     {/* {'calc(100vh - 57px - 65px)'} */}
       {storages.map(storage => (
         <Link key={storage.storage_name} to={'/storage/' + storage.storage_name} className="list-group-item list-group-item-action d-flex align-items-center justify-content-center">
-          <img src="/gem.svg" alt="twbs" className="rounded-circle flex-shrink-0" style={{ width: '32px', height: '32px' }} />
+          <img src="/pizza-slice.svg" alt="twbs" className="rounded-circle flex-shrink-0" style={{ width: '32px', height: '32px' }} />
           <div className="flex-grow-1 text-center">
             <h5 className="mb-0 text-uppercase">{storage.storage_name}</h5>
             <small className="mb-1">Items Expiring Soon: { countExpiringItems(storage.items) }</small>

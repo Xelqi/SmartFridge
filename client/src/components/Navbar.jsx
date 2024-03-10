@@ -6,22 +6,25 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-        await fetch("http://localhost:8080/api/user/logout", {
-          method: "POST",
-          credentials: "include", // Include credentials for cross-origin requests
-        })
+      await fetch("http://localhost:8080/api/user/logout", {
+        method: "POST",
+        credentials: "include", // Include credentials for cross-origin requests
+      });
       //   // Redirect to the login page or perform any other necessary actions
       window.location.href = "/login";
     } catch (error) {
-      console.log('Logout Failed', error)
+      console.log("Logout Failed", error);
     }
-  }
+  };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-body-secondary">
+    <nav
+      className="navbar navbar-expand-lg bg-transparent rounded-bottom"
+      id="navbar-top"
+    >
       <div className="container-fluid">
         <button
-          className="navbar-toggler"
+          className="navbar-toggler shadow-sm"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#navbarNav"
@@ -31,115 +34,180 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="/" className="navbar-brand d-none d-sm-block">
+        <Link to="/" className="navbar-brand d-none d-lg-block">
           <img
-            src="/vite.svg"
+            src="/shopping-cart.svg"
             alt="logo"
-            width="30"
-            height="30"
+            width="25"
+            height="25"
             className="d-inline-block align-text-top"
           />
           Smart Fridge
         </Link>
-         {/* Off Canvas Navbar */}
+        {/* Off Canvas Navbar */}
         <div
-          className="offcanvas offcanvas-start"
+          className="offcanvas offcanvas-start rounded-end-3"
           tabIndex="-1"
           id="navbarNav"
           aria-labelledby="navbarNavLabel"
-          style={{ width: "50%" }}
+          style={{ width: "55%" }}
         >
-        <div className="offcanvas-body pe-1 pt-1 pb-0 ps-2">
-          <div className="d-flex">
-          {/* <h4 className="mx-auto mb-0" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Smart Fridge</h4> */}
-          <button
-                    type="button"
-                    className="btn-close d-flex ms-auto d-sm-none"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-          ></button>
+          {/* Header of Off Canvas */}
+          <div className="offcanvas-header d-flex flex-column align-items-center mb-auto d-lg-none">
+            <div style={{ width: "100%" }}>
+              <button
+                type="button"
+                className="btn-close d-flex ms-auto d-lg-none"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            {/* Avatar */}
+            <img
+              className="d-flex align-self-start"
+              src="/pizza-slice.svg"
+              alt=""
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            />
+            {/* Name and Email */}
+            <div className="align-self-start mt-3">
+              <h5
+                style={{
+                  marginBottom: "0",
+                }}
+              >
+                Milo L
+              </h5>
+              <p
+                style={{
+                  color: "grey",
+                  marginTop: "0",
+                  marginBottom: "0",
+                  fontSize: "13px",
+                }}
+              >
+                milek1093@gmail.com
+              </p>
+            </div>
           </div>
-            <ul className="navbar-nav">
-            <li className="nav-item">
-                <Link to="/" className={`pt-sm-0 d-flex nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+          {/* Body of off canvas */}
+          <div className="offcanvas-body pt-2 pt-lg-0">
+            <ul className="navbar-nav align-items-start">
+              <li className="nav-item">
+                <Link
+                  to="/"
+                  className={`pt-sm-0 py-lg-0 d-flex nav-link ${
+                    location.pathname === "/" ? "active" : ""
+                  }`}
+                >
                   <img
-                    src="/house.svg"
+                    src="/home-icon.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-flex d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Home</p>
+                  <p className="d-flex my-auto m-lg-0">Home</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/item-scan" className={`py-sm-0 d-flex nav-link ${location.pathname === '/item-scan' ? 'active' : ''}`}>
+                <Link
+                  to="/item-scan"
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/item-scan" ? "active" : ""
+                  }`}
+                >
                   <img
                     src="/camera.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-flex d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Quick Add</p>
+                  <p className="d-flex my-auto m-lg-0">Quick Add</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/storage" className={`py-sm-0 d-flex nav-link ${location.pathname === '/storage' ? 'active' : ''}`}>
+                <Link
+                  to="/storage"
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/storage" ? "active" : ""
+                  }`}
+                >
                   <img
-                    src="/inboxes.svg"
+                    src="/pizza-slice.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-flex d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Storage</p>
-                </Link>                
+                  <p className="d-flex my-auto m-lg-0">Storages</p>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link
                   to="/shopping"
-                  className={`py-sm-0 d-flex nav-link ${location.pathname === '/shopping' ? 'active' : ''}`}
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/shopping" ? "active" : ""
+                  }`}
                 >
                   <img
-                    src="/cart3.svg"
+                    src="/shopping-cart.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-flex d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Shopping List</p>
+                  <p className="d-flex my-auto m-lg-0">Shopping</p>
                 </Link>
-                
-              </li>
-              <hr className="my-1 d-sm-none" style={{transform: 'translateX(-2vw)', width: '49.3vw'}}/>
-              <li className="nav-item">
-                <Link to="/register" className={`py-sm-0 d-flex nav-link ${location.pathname === '/register' ? 'active' : ''}`}>
-                  <img
-                    src="/key.svg"
-                    alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
-                  />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Register</p>
-                </Link>          
               </li>
               <li className="nav-item">
-                <Link to="/login" className={`py-sm-0 d-flex nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
+                <Link
+                  to="/register"
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/register" ? "active" : ""
+                  }`}
+                >
                   <img
-                    src="/arrow-bar-right.svg"
+                    src="/portrait-user.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-flex d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Login</p>
-                </Link>               
+                  <p className="d-flex my-auto m-lg-0">Sign Up</p>
+                </Link>
               </li>
               <li className="nav-item">
-                <button onClick={handleLogout} className="py-sm-0 nav-link d-flex">
+                <Link
+                  to="/login"
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/login" ? "active" : ""
+                  }`}
+                >
                   <img
-                    src="/arrow-bar-left.svg"
+                    src="/sign-in.svg"
                     alt=""
-                    className="d-inline-block d-sm-none"
-                    style={{ paddingRight: "5vw" }}
+                    className="d-inline-block d-lg-none me-4"
                   />
-                  <p className="mb-0 mt-1" style={{fontFamily: "Roboto, sans-serif", fontWeight: "400"}}>Logout</p>
+                  <p className="d-flex my-auto m-lg-0">Log In</p>
+                </Link>
+              </li>
+              {/* Render navlink for large screen and btn for small so it looks good */}
+              <li className="nav-item align-self-center mt-lg-0 mt-5">
+                <button
+                  onClick={handleLogout}
+                  className="nav-link d-lg-flex align-items-center justify-content-center mt-lg-0 mt-5 rounded-pill py-lg-0 d-none"
+                >
+                  <img
+                    src="/logout-btn.png"
+                    alt=""
+                    className="d-inline-block me-2 d-lg-none"
+                    style={{ width: "25px", height: "25px" }}
+                  />
+                  <p className="d-flex my-auto m-lg-0">Log out</p>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-primary d-flex d-lg-none align-items-center justify-content-center mt-lg-0 mt-5 rounded-pill py-lg-0"
+                >
+                  <img
+                    src="/logout-btn.png"
+                    alt=""
+                    className="d-inline-block me-2 d-lg-none d-"
+                    style={{ width: "25px", height: "25px" }}
+                  />
+                  <p className="d-flex my-auto m-lg-0">Log out</p>
                 </button>
               </li>
             </ul>

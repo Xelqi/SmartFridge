@@ -16,7 +16,7 @@ router.post('/process-text', async (req, res) => {
     messages: [
         {
         role: 'system',
-        content: 'Recognise edible food Items. Categorise the items and give them a expected expiry time in days as a number, dont include amounts of items just names. Provide the output as a JSON object with the following format: { "food_items": [{ "name": string, "category": string, "expiry_date": int }] } so its parseable',
+        content: 'Recognise edible food Items. Categorise the items and give them a expected expiry time in days as a number, if items occur multiple times add 1 to the amount. Provide the output as a JSON object with the following format: { "food_items": [{ "name": string, "category": string, "expiry_date": int, "quantity": int }] } so its parseable',
         },
         {
         role: 'user',
@@ -26,7 +26,8 @@ router.post('/process-text', async (req, res) => {
     });
 
     // Get the response from OpenAI
-    const openaiJsonResponse = openaiResponse.choices[0].message;
+    // content is only json part 
+    const openaiJsonResponse = openaiResponse.choices[0].message.content;
     console.log(openaiJsonResponse);
 
     // Send the OpenAI response to the client

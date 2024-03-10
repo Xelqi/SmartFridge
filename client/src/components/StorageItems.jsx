@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function StorageItemList() {
+export default function StorageItems() {
   const { storage_name } = useParams();
   const [items, setItems] = useState([]);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -106,16 +106,16 @@ export default function StorageItemList() {
           >
             {/* Image */}
             <img
-              src="/gem.svg"
+              src="/pizza-slice.svg"
               alt="Item Icon"
-              style={{ marginRight: "10px" }}
+              style={{ marginRight: "10px", width: "25px", height: "25px" }}
             />
             {/* Item name and expiry days */}
             <div className="d-flex flex-column">
               <h5 className="mb-0">{item.item_name}</h5>
               <div className="d-flex align-items-center">
-              <h6 className="me-3">Expiry: {item.expiryDays} days</h6>
-              <h6 className="">Quantity: {item.quantity}</h6>
+                <h6 className="me-3">Expiry: {item.expiryDays} days</h6>
+                <h6 className="">Quantity: {item.quantity}</h6>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function StorageItemList() {
               <p>Expiry Days: {selectedItem.expiryDays}</p>
               <p>Quantity: {selectedItem.quantity}</p>
               {/* Buttons to increment and decrement quantity */}
-              <button
+              <a
                 onClick={() =>
                   setSelectedItem((prev) => ({
                     ...prev,
@@ -162,8 +162,8 @@ export default function StorageItemList() {
                   }))
                 }
               >
-                +
-              </button>
+                <img src="/expiry-plus.png" alt="" />
+              </a>
               <button
                 onClick={() =>
                   setSelectedItem((prev) => ({

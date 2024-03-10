@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AddStorage from "../components/AddStorage";
-import StorageList from "../components/StorageList";
+import Storages from "../components/Storages";
 
 const StoragePage = () => {
   const [storages, setStorages] = useState([]);
@@ -45,10 +45,10 @@ const StoragePage = () => {
   return (
     <div className="row">
       <div className="col-11 mx-auto">
-        <h1 className="text-center my-3">Storage Units</h1>
-        <StorageList storages={storages} />
-        <AddStorage onAddStorage={handleAddStorage} />
+        <h1 className="text-center my-2">Storage Units</h1>
+        <Storages storages={storages} />
       </div>
+      <AddStorage onAddStorage={handleAddStorage} />
     </div>
   );
 };

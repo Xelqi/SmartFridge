@@ -1,6 +1,6 @@
 const HomePage = () => {
   return (
-        <div className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary" style={{borderRadius: '1%'}}>
+        <div className=" bg-transparent position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center" style={{borderRadius: '1%'}}>
           <div className="col-md-6 p-lg-5 mx-auto my-5">
             <h1 className="display-3 fw-bold">Designed for engineers</h1>
             <h3 className="fw-normal text-muted mb-3">
