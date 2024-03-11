@@ -16,7 +16,7 @@ router.post('/process-text', async (req, res) => {
     messages: [
         {
         role: 'system',
-        content: 'Recognise edible food Items. Categorise the items and give them a expected expiry time in days as a number, if items occur multiple times add 1 to the amount. Provide the output as a JSON object with the following format: { "food_items": [{ "name": string, "category": string, "expiry_date": int, "quantity": int }] } so its parseable',
+        content: 'Recognize food items that humans eat, excluding non-edible items. Categorise the items and give them a expected expiry time in days as a number, if items occur multiple times add 1 to the amount. Provide the output as a JSON object with the following format: { "food_items": [{ "item_name": string, "category": string, "expiryDays": int, "quantity": int }] } so its parseable.',
         },
         {
         role: 'user',
@@ -29,9 +29,11 @@ router.post('/process-text', async (req, res) => {
     // content is only json part 
     const openaiJsonResponse = openaiResponse.choices[0].message.content;
     console.log(openaiJsonResponse);
-
-    // Send the OpenAI response to the client
-    res.json({ openaiJsonResponse });
+    // Remove the surrounding ```json``` code block and escape newline characters
+    const cleanedResponse = openaiJsonResponse.replace(/```json\n|```/g, '').replace(/\n/g, '');
+    // Send the cleaned OpenAI response to the client as a JSON object
+    console.log(cleanedResponse);
+    res.json(JSON.parse(cleanedResponse));
 });
 
 module.exports = router;

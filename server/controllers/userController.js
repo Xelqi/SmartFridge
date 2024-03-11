@@ -96,7 +96,7 @@ async function addItemToStorageByName(req, res) {
     }
 
     // Validate each item in the request body
-    for (const item of req.body.items) {
+    for (const item of req.body) {
       // Validate item properties
       if (!item.item_name) {
         throw new Error("Item names are required");

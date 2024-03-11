@@ -124,7 +124,7 @@ export default function StorageItems() {
             className="btn btn-link"
             onClick={() => handleDeleteItem(item._id)}
           >
-            <img src="/trash3.svg" alt="Gem Icon" />
+            <img src="/bin.svg" alt="Gem Icon" />
           </button>
         </div>
       ))}
