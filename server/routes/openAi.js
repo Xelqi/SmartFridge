@@ -12,7 +12,7 @@ router.post('/process-text', async (req, res) => {
 
     // Process the extracted text using OpenAI
     const openaiResponse = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo-1106',
+    model: 'gpt-3.5-turbo-0125',
     messages: [
         {
         role: 'system',
