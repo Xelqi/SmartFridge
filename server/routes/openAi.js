@@ -8,11 +8,11 @@ const openai = require('../config/openAiConfig');
 router.post('/process-text', async (req, res) => {
     const extractedText = req.body.text;
 
-    console.log(extractedText);
+    // console.log(extractedText);
 
     // Process the extracted text using OpenAI
     const openaiResponse = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo-0125',
+    model: 'gpt-4-turbo-preview',
     messages: [
         {
         role: 'system',
@@ -28,11 +28,11 @@ router.post('/process-text', async (req, res) => {
     // Get the response from OpenAI
     // content is only json part 
     const openaiJsonResponse = openaiResponse.choices[0].message.content;
-    console.log(openaiJsonResponse);
+    // console.log(openaiJsonResponse);
     // Remove the surrounding ```json``` code block and escape newline characters
     const cleanedResponse = openaiJsonResponse.replace(/```json\n|```/g, '').replace(/\n/g, '');
     // Send the cleaned OpenAI response to the client as a JSON object
-    console.log(cleanedResponse);
+    // console.log(cleanedResponse);
     res.json(JSON.parse(cleanedResponse));
 });
 

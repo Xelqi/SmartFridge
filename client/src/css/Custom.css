@@ -3,8 +3,12 @@
 */
 
 .app {
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
+}
+
+body {
+  overflow-y: hidden; /* Prevent vertical scrolling */
 }
 
 p,
@@ -13,7 +17,7 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6, input {
   font-family: "Sofia Sans Semi Condensed", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
@@ -105,3 +109,94 @@ h6 {
 #add-storage-div.show {
   transform: translateY(0); /* Move the component to the top when it is shown */
 }
+
+/* Item scan buttons */
+
+#buttons:active {
+  transition: transform 0.1s ease; /* Transition effect for transform when button is active (pressed) */
+  transform: scale(
+    0.9
+  ); /* Scale the button slightly smaller when active (pressed) */
+}
+
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active {
+  background-color: #fe724c !important;
+  color: #ffffff; /* Optional: Text color for active state */
+}
+
+/* Shopping List CSS */
+
+#shopping-list-form {
+  border: 3px solid #ffece7;
+  padding: 5px;
+  display: flex;
+} 
+
+form input[type="text"] {
+  background: none;
+  border: 0;
+  display: block;
+  width: 100%;
+}
+
+
+form input[type="text"]:focus {
+  outline: none; 
+}
+
+form button {
+  background-color: #fe724c;
+  border: 0;
+  padding-left: 1px;
+  padding-right: 1px;
+  cursor: pointer;
+}
+
+div#task {
+  background-color: #ffece7;
+  border-radius: 2rem;
+  border: 1px solid #c4aca568;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s linear;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+div#task img {
+  height: 24px;
+  width: 24px;
+  margin: 0 4px;
+}
+
+div.checked {
+  opacity: 0.5;
+}
+
+div.checked h5 {
+  position: relative;
+}
+
+div h5:before {
+  content: "";
+  display: block;
+  width: 0%;
+  height: 1px;
+  background-color: #000000;
+  position: absolute;
+  top: 57%;
+}
+
+div.checked h5:before {
+  width: 100%;
+  transition: width 0.3s linear;
+}
+
+div#task input {
+  border: 2px solid #fe724c;
+  border-radius: 10px;
+  margin-right: 1rem; /* Add margin to separate from the text */
+}
+

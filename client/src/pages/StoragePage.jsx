@@ -45,7 +45,6 @@ const StoragePage = () => {
   return (
     <div className="row">
       <div className="col-11 mx-auto">
-        <h1 className="text-center my-2">Storage Units</h1>
         <Storages storages={storages} />
       </div>
       <AddStorage onAddStorage={handleAddStorage} />

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ItemCard from "./ItemCard"; // Import the ItemCard component
 
 export default function StorageItems() {
   const { storage_name } = useParams();
@@ -89,45 +90,21 @@ export default function StorageItems() {
       console.error(error);
     }
   };
+
   return (
     <div
       className="list-group overflow-y-auto"
-      style={{ height: "calc(100vh - 57px - 65px)" }}
+      style={{ height: "calc(100svh - 57px - 65px)" }}
     >
       {items.map((item) => (
-        <div
+        <ItemCard
           key={item._id}
-          className="list-group-item d-flex justify-content-between align-items-center"
-        >
-          {/* Item details */}
-          <div
-            className="d-flex align-items-center"
-            onClick={() => handleDivClick(item._id)}
-          >
-            {/* Image */}
-            <img
-              src="/pizza-slice.svg"
-              alt="Item Icon"
-              style={{ marginRight: "10px", width: "25px", height: "25px" }}
-            />
-            {/* Item name and expiry days */}
-            <div className="d-flex flex-column">
-              <h5 className="mb-0">{item.item_name}</h5>
-              <div className="d-flex align-items-center">
-                <h6 className="me-3">Expiry: {item.expiryDays} days</h6>
-                <h6 className="">Quantity: {item.quantity}</h6>
-              </div>
-            </div>
-          </div>
-          {/* Delete button */}
-          <button
-            className="btn btn-link"
-            onClick={() => handleDeleteItem(item._id)}
-          >
-            <img src="/bin.svg" alt="Gem Icon" />
-          </button>
-        </div>
+          item={item}
+          onClick={() => handleDivClick(item._id)}
+          onDelete={() => handleDeleteItem(item._id)}
+        />
       ))}
+
       {/* Offcanvas component */}
       <div
         className={`offcanvas offcanvas-top ${showOffcanvas ? "show" : ""}`}

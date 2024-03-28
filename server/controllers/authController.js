@@ -11,7 +11,7 @@ function authenticateToken(req, res, next) {
   // Cookie Token
   const token = req.cookies.token;
   const refreshToken = req.cookies.refreshToken;
-  console.log("Token:", token); // Log the token value
+  // console.log("Token:", token); // Log the token value
   if (!token && !refreshToken) {
     // res.clearCookie("token");
     return res.status(401).json({ error: "Unauthorized" });
@@ -19,14 +19,13 @@ function authenticateToken(req, res, next) {
   // Verify token see if its valid or not
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      console.log({ RefreshTokeninErrorAUth: req.cookies.refreshToken });
+      // console.log({ RefreshTokeninErrorAUth: req.cookies.refreshToken });
       refreshTokenMiddleWare(req, res, next);
       // return res.status(403).json({ error: "Forbidden" });
     } else {
       // set our user to the request when token valid
       // Identifier
       req.user = user;
-      console.log("User AuthenticateTOken: ", user);
       next();
     }
   });
@@ -34,7 +33,7 @@ function authenticateToken(req, res, next) {
 
 function refreshTokenMiddleWare(req, res, next) {
   const refreshToken = req.cookies.refreshToken;
-  console.log({ refreshToken: refreshToken });
+  // console.log({ refreshToken: refreshToken });
   if (refreshToken) {
     jwt.verify(
       refreshToken,
@@ -48,8 +47,8 @@ function refreshTokenMiddleWare(req, res, next) {
             .redirect("/login");
         } else {
           if (decoded && decoded.username) {
-            console.log({ decoded: decoded });
-            console.log(decoded.username);
+            // console.log({ decoded: decoded });
+            // console.log(decoded.username);
             // Generate a new JWT token
             const newToken = jwt.sign(
               { username: decoded.username },
@@ -63,7 +62,7 @@ function refreshTokenMiddleWare(req, res, next) {
             // Authenticate the new token to set req.user
             // Set req.user and proceed to the next middleware
             req.user = decoded;
-            console.log("User Refreshtoken:", decoded);
+            // console.log("User Refreshtoken:", decoded);
             next();
           }
         }
@@ -93,7 +92,6 @@ async function login(req, res) {
     if (!user || user.password !== password) {
       throw new Error("Invalid email or password");
     }
-    console.log(user);
     const token = jwt.sign(
       { username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
@@ -104,13 +102,20 @@ async function login(req, res) {
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
-    res.cookie("token", token);
-    res.cookie("refreshToken", refreshToken);
+
+    // Set expiration time for cookies
+    const tokenExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+    const refreshTokenExpiration = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+    res.cookie("token", token, { expires: tokenExpiration });
+    res.cookie("refreshToken", refreshToken, { expires: refreshTokenExpiration });
+
     res.status(200).json({ message: "Login successful", user }); // Sending JSON response
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
 }
+
 
 // controller/authController.js
 function logout(req, res) {

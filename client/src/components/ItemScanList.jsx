@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
+import ItemCard from "./ItemCard"; // Import the ItemCard component
 
 export default function ItemScanList() {
   const [file, setFile] = useState();
@@ -12,11 +13,13 @@ export default function ItemScanList() {
     const selectedFile = e.target.files[0];
     console.log(selectedFile);
     setFile(URL.createObjectURL(selectedFile));
-
+  
     if (selectedFile) {
+      // Reset backendResponse state when a new file is selected
+      setBackendResponse([]);
       Tesseract.recognize(selectedFile, "eng").then(({ data: { text } }) => {
         console.log("Text:", text);
-
+  
         // Send the extracted text to your backend
         fetch("/api/process-text", {
           method: "POST",
@@ -51,8 +54,12 @@ export default function ItemScanList() {
     } else {
       // No file selected, handle accordingly (e.g., reset the 'file' state)
       setFile(null);
+      setBackendResponse([]); // Clear the backend response when no file is selected
+      // Reset the value of the file input element
+      e.target.value = null;
     }
   }
+  
 
   // Cleanup on component unmount or when 'file' changes
   useEffect(() => {
@@ -63,34 +70,6 @@ export default function ItemScanList() {
       }
     };
   }, [file]);
-
-  const increaseQuantity = (index) => {
-    const updatedItems = [...backendResponse];
-    updatedItems[index].quantity++;
-    setBackendResponse(updatedItems);
-  };
-
-  const decreaseQuantity = (index) => {
-    const updatedItems = [...backendResponse];
-    if (updatedItems[index].quantity > 1) {
-      updatedItems[index].quantity--;
-      setBackendResponse(updatedItems);
-    }
-  };
-
-  const increaseExpiration = (index) => {
-    const updatedItems = [...backendResponse];
-    updatedItems[index].expiryDays++;
-    setBackendResponse(updatedItems);
-  };
-
-  const decreaseExpiration = (index) => {
-    const updatedItems = [...backendResponse];
-    if (updatedItems[index].expiryDays > 0) {
-      updatedItems[index].expiryDays--;
-      setBackendResponse(updatedItems);
-    }
-  };
 
   const handleDelete = (index) => {
     const updatedItems = [...backendResponse];
@@ -112,6 +91,10 @@ export default function ItemScanList() {
         .then((data) => {
           // Handle response
           console.log("Items added to storage:", data);
+          alert("Items added Successfully");
+          setFile(null);
+          setSelectedStorage("");
+          setBackendResponse([]);
         })
         .catch((error) => {
           console.error("Error adding items to storage:", error);
@@ -137,89 +120,72 @@ export default function ItemScanList() {
       .catch((error) => console.error("Error fetching storages:", error));
   }, []);
 
+  // Helper function to capitalize the first letter of each word
+  function capitalizeFirstLetter(string) {
+    return string.replace(/\b\w/g, (match) => match.toUpperCase());
+  }
+
   return (
-    <div className="container-fluid text-center">
-      <h1>Quick Add</h1>
-      <input className="form-control" type="file" onChange={handleChange} />
+    <div className="container-fluid text-center" style={{height: "calc(100vh -57px - 65px)"}}>
+      <input
+        className="form-control mt-4 bg-secondary"
+        type="file"
+        capture="user"
+        accept="image/*"
+        onChange={handleChange}
+      />
       <div>
         <h4 className="mt-3">Items Found in Receipt</h4>
       </div>
-      <div className="container" style={{ height: "45vh", overflowY: "auto" }}>
+      <div className="container" style={{ height: "51vh", overflowY: "auto" }}>
         {backendResponse.map((item, index) => (
-          <div
+          <ItemCard
             key={index}
-            className="px-4 py-2 border mb-2 rounded-5 bg-secondary"
-          >
-            <div className="d-flex">
-              <h5 className="ms-auto">{item.item_name}</h5>
-              <img
-                className="ms-auto"
-                src="/bin.svg"
-                alt=""
-                onClick={() => handleDelete(index)}
-              />
-            </div>
-            <div className="d-flex">
-              <h6 className="mb-1" style={{ width: "50%" }}>
-                Category:
-              </h6>
-              <h6 className="me-auto my-auto">{item.category}</h6>
-            </div>
-            <div className="d-flex">
-              <h6 className="mb-1 mt-1" style={{ width: "50%" }}>
-                Quantity:
-              </h6>
-              <h6 className="me-auto my-auto">{item.quantity}</h6>
-              <div className="d-flex align-items-center">
-                <img
-                  src="/plus-btn.svg"
-                  alt=""
-                  className="me-1"
-                  onClick={() => increaseQuantity(index)}
-                />
-                <img
-                  src="/minus-btn.svg"
-                  alt=""
-                  onClick={() => decreaseQuantity(index)}
-                />
-              </div>
-            </div>
-            <div className="d-flex">
-              <h6 className="mb-1 mt-1" style={{ width: "50%" }}>
-                Expiry Days:
-              </h6>
-              <h6 className="me-auto my-auto">{item.expiryDays}</h6>
-              <div className="d-flex align-items-center">
-                <img
-                  src="/plus-btn.svg"
-                  alt=""
-                  className="me-1"
-                  onClick={() => increaseExpiration(index)}
-                />
-                <img
-                  src="/minus-btn.svg"
-                  alt=""
-                  onClick={() => decreaseExpiration(index)}
-                />
-              </div>
-            </div>
-          </div>
+            item={item}
+            onDelete={() => handleDelete(index)} // Pass onDelete function correctly
+          />
         ))}
       </div>
-      <div className="my-3">
-        <select
-          value={selectedStorage}
-          onChange={(e) => setSelectedStorage(e.target.value)}
+      <div className="dropup my-2 mt-lg-4 mt-2">
+        <button
+          className="btn btn-primary"
+          type="button"
+          id="storageDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style={{ width: "130px" }} // Adjust the width as needed
         >
-          <option value="">Select Storage</option>
-          {storages.map((storage) => (
-            <option key={storage} value={storage}>
-              {storage}
-            </option>
+          <p className="m-0 p-0 dropdown-toggle">
+            {selectedStorage
+              ? capitalizeFirstLetter(selectedStorage)
+              : "Select Storage"}
+          </p>
+        </button>
+        <ul
+          className="dropdown-menu bg-secondary pb-0 pt-0 text-center"
+          aria-labelledby="storageDropdown"
+          style={{
+            maxHeight: "10rem",
+            overflowY: "auto",
+            bottom: "100%",
+            width: "130px",
+            minWidth: "130px",
+          }}
+        >
+          {storages.map((storage, index) => (
+            <li key={index}>
+              <button
+                className="dropdown-item"
+                onClick={() => setSelectedStorage(storage)}
+              >
+                <p className="m-0">{capitalizeFirstLetter(storage)}</p>
+              </button>
+            </li>
           ))}
-        </select>
+        </ul>
       </div>
-      <button className="btn btn-primary" onClick={handleAddItems}>
+
+      <button className="btn btn-primary mt-lg-2" onClick={handleAddItems}>
         <p className="m-0">Add Items</p>
       </button>
     </div>

@@ -1,20 +1,18 @@
-//  Import mongoose to create Schema
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-// Creating a schema for a user and their items
 const userSchema = Schema(
   {
     username: {
       type: String,
       required: true,
-      unique: true, // Ensure usernames are unique
+      unique: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true, // Ensure emails are unique
+      unique: true,
     },
     password: {
       type: String,
@@ -47,10 +45,33 @@ const userSchema = Schema(
           },
         ],
       }
+    ],
+    shopping_lists: [
+      {
+        list_name: {
+          type: String,
+          required: true,
+        },
+        items: [
+          {
+            item_name: {
+              type: String,
+              required: true,
+            },
+            quantity: {
+              type: Number,
+              required: true,
+            },
+            checked: {  // New field for checkbox status
+              type: Boolean,
+              default: false, // Default value is false (unchecked)
+            }
+          }
+        ]
+      }
     ]
   },
   { timestamps: true }
 );
 
-// Exporting the model to interact with in API
 module.exports = mongoose.model("User", userSchema);

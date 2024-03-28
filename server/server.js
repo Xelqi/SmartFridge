@@ -3,10 +3,11 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const openaiRoute = require("./routes/openAi");
-const userRoute = require("./routes/userRoutes")
+const userRoute = require("./routes/userRoutes");
+const shoppingRoute = require("./routes/shoppingRoutes");
 const mongoose = require("mongoose");
 const { error } = require("console");
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 // Express App
 const app = express();
@@ -43,3 +44,4 @@ mongoose
 
 app.use("/api", openaiRoute);
 app.use("/api/user", userRoute);
+app.use("/api/shopping", shoppingRoute);

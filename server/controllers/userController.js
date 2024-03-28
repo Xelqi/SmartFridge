@@ -1,6 +1,7 @@
 const User = require("../models/user"); // Assuming User model file path
 
-// Controller function to add a storage to a user
+// Storage Related API Calls
+// Add a storage
 async function addStorage(req, res) {
   try {
     const username = req.user.username;
@@ -20,17 +21,18 @@ async function addStorage(req, res) {
     // Save the user with the updated storage array
     await user.save();
     res.status(201).json({ message: "Storage added successfully" });
-    console.log("Added Storage: " + storage_name)
+    console.log("Added Storage: " + storage_name);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
 
+// Delete a storage
 async function deleteStorage(req, res) {
   try {
     const username = req.user.username;
     const storageName = req.params.storage_name;
-    
+
     // Find the user by username
     const user = await User.findOne({ username });
 
@@ -39,7 +41,9 @@ async function deleteStorage(req, res) {
     }
 
     // Find the index of the storage with the given name
-    const storageIndex = user.storage.findIndex(storage => storage.storage_name === storageName);
+    const storageIndex = user.storage.findIndex(
+      (storage) => storage.storage_name === storageName
+    );
 
     if (storageIndex === -1) {
       throw new Error("Storage not found");
@@ -59,8 +63,7 @@ async function deleteStorage(req, res) {
   }
 }
 
-
-// Controller function to get all storages of a user
+// Get all storages
 async function getAllStorages(req, res) {
   try {
     const username = req.user.username;
@@ -69,73 +72,29 @@ async function getAllStorages(req, res) {
     if (!user) {
       throw new Error("User not found");
     }
-    console.log(user.storage);
     // Return all storages belonging to the user
+    console.log("Get all storages WTF")
     res.status(200).json({ storages: user.storage });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
 
-// Controller function to add an item to a storage by storage name of a user
-async function addItemToStorageByName(req, res) {
-  try {
-    const username = req.user.username;
-    const storageName = req.params.storage_name;
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-    console.log(storageName);
-    // Find the storage by storageName
-    const storage = user.storage.find(storage => storage.storage_name === storageName);
-
-    if (!storage) {
-      throw new Error("Storage not found");
-    }
-
-    // Validate each item in the request body
-    for (const item of req.body) {
-      // Validate item properties
-      if (!item.item_name) {
-        throw new Error("Item names are required");
-      }
-      if (!item.expiryDays) {
-        throw new Error("Expiry dates are required");
-      }
-      if (!item.quantity) {
-        throw new Error("Quantity cannot be 0");
-      }
-      if (!item.category) {
-        throw new Error("Item Category is required");
-      }
-      // Push the validated item to the selected storage's items array
-      storage.items.push(item);
-    }
-
-    // Save the user with updated items array
-    await user.save();
-    res.status(201).json({ message: "Items added to storage successfully" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-}
-
-
+// Get all items from a selected storage
 async function getItemsFromStorage(req, res) {
   try {
-    console.log("Im here");
     const username = req.user.username;
     const storageName = req.params.storage_name; // Extract storage name from request params
     const user = await User.findOne({ username });
-    console.log(user)
+    console.log(user);
     if (!user) {
       throw new Error("User not found");
     }
 
     // Find the storage by storageName
-    const storage = user.storage.find(storage => storage.storage_name === storageName);
+    const storage = user.storage.find(
+      (storage) => storage.storage_name === storageName
+    );
 
     if (!storage) {
       throw new Error("Storage not found");
@@ -147,6 +106,49 @@ async function getItemsFromStorage(req, res) {
   }
 }
 
+// Add item to storage by Name
+// Add item to storage by Name
+async function addItemToStorageByName(req, res) {
+  try {
+    const username = req.user.username;
+    const storageName = req.params.storage_name;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
+    // Find the storage by storageName
+    const storage = user.storage.find(
+      (storage) => storage.storage_name === storageName
+    );
+
+    if (!storage) {
+      throw new Error("Storage not found");
+    }
+    
+    // Add each item from the request body to the storage's items array
+    for (const item of req.body) {
+      // Validate item properties
+      if (!item.item_name || !item.expiryDays || !item.quantity || !item.category) {
+        throw new Error("Item properties are required");
+      }
+      
+      // Push the item to the storage's items array
+      storage.items.push(item);
+    }
+
+    // Save the user with updated items array
+    await user.save();
+    res.status(201).json({ message: "Items added to storage successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+// Get one item from storage by _id
 async function getOneItemFromStorage(req, res) {
   try {
     const username = req.user.username;
@@ -159,7 +161,9 @@ async function getOneItemFromStorage(req, res) {
       throw new Error("User not found");
     }
 
-    const storage = user.storage.find(storage => storage.storage_name === storageName);
+    const storage = user.storage.find(
+      (storage) => storage.storage_name === storageName
+    );
 
     if (!storage) {
       throw new Error("Storage not found");
@@ -178,7 +182,7 @@ async function getOneItemFromStorage(req, res) {
   }
 }
 
-
+// Delete item by _id
 async function deleteItem(req, res) {
   try {
     const username = req.user.username;
@@ -188,7 +192,9 @@ async function deleteItem(req, res) {
     }
 
     const storageName = req.params.storage_name; // Assuming you pass the storage name as a parameter
-    const storage = user.storage.find(storage => storage.storage_name === storageName);
+    const storage = user.storage.find(
+      (storage) => storage.storage_name === storageName
+    );
     if (!storage) {
       throw new Error("Storage not found");
     }
@@ -202,7 +208,7 @@ async function deleteItem(req, res) {
   }
 }
 
-
+// Update item by _id
 async function updateItem(req, res) {
   try {
     const username = req.user.username;
@@ -212,7 +218,9 @@ async function updateItem(req, res) {
     }
 
     const storageName = req.params.storage_name; // Assuming you pass the storage name as a parameter
-    const storage = user.storage.find(storage => storage.storage_name === storageName);
+    const storage = user.storage.find(
+      (storage) => storage.storage_name === storageName
+    );
     if (!storage) {
       throw new Error("Storage not found");
     }
@@ -234,6 +242,7 @@ async function updateItem(req, res) {
 }
 
 module.exports = {
+  // Storage-related functions
   addStorage,
   deleteStorage,
   getAllStorages,

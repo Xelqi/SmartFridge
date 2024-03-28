@@ -44,6 +44,27 @@ export default function Navbar() {
           />
           Smart Fridge
         </Link>
+         {/* Render h1 element for small and medium screens */}
+         {location.pathname === "/" && (
+          <h1 className="d-block d-md-none my-auto" style={{ marginRight: "calc(56vw - 68px)" }}>
+          Home
+        </h1>
+        )}
+        {location.pathname === "/item-scan" && (
+          <h1 className="d-block d-md-none my-auto" style={{ marginRight: "calc(50vw - 67px)" }}>
+          Quick Add
+        </h1>
+        )}
+        {location.pathname === "/storage" && (
+          <h1 className="d-block d-md-none my-auto" style={{ marginRight: "calc(50vw - 67px)" }}>
+          Storages
+        </h1>     
+        )}
+        {location.pathname === "/shopping" && (
+          <h1 className="d-block d-md-none my-auto" style={{ marginRight: "calc(50vw - 67px)" }}>
+          Shopping
+        </h1>  
+        )}
         {/* Off Canvas Navbar */}
         <div
           className="offcanvas offcanvas-start rounded-end-3"
