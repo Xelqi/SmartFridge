@@ -1,3 +1,4 @@
+import AddShoppingList from "../components/AddShoppingList";
 import ShoppingList from "../components/ShoppingList";
 import { useState, useEffect } from "react";
 
@@ -23,6 +24,34 @@ const ShoppingCartPage = () => {
 
     // Specify an empty dependency array to run the effect only once
   }, []);
+  // Function to handle adding a shopping list
+  const handleAddShoppingList = async (listName) => {
+    try {
+      const response = await fetch("/api/shopping/add-shopping-list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ list_name: listName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add shopping list");
+      }
+
+      // Fetch updated shopping lists after adding a new one
+      const updatedListsResponse = await fetch(
+        "/api/shopping/get-all-shopping-lists"
+      );
+      if (!updatedListsResponse.ok) {
+        throw new Error("Failed to fetch updated shopping lists");
+      }
+      const updatedListsData = await updatedListsResponse.json();
+      setShoppingLists(updatedListsData.shopping_lists);
+    } catch (error) {
+      console.error("Error adding shopping list:", error);
+    }
+  };
 
   return (
     <div className="row">
@@ -31,6 +60,7 @@ const ShoppingCartPage = () => {
           shoppingLists={shoppingLists}
           setShoppingLists={setShoppingLists}
         />
+        <AddShoppingList onAddShoppingList={handleAddShoppingList} />
       </div>
     </div>
   );

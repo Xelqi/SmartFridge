@@ -44,7 +44,7 @@ async function addShoppingList(req, res) {
 async function deleteShoppingList(req, res) {
   try {
     const username = req.user.username;
-    const listName = req.params.list_name;
+    const listId = req.params.list_id; // Assuming the parameter is named list_id
 
     // Find the user by username
     const user = await User.findOne({ username });
@@ -53,17 +53,17 @@ async function deleteShoppingList(req, res) {
       throw new Error("User not found");
     }
 
-    // Find the index of the shopping list with the given name
-    const listIndex = user.shopping_lists.findIndex(
-      (list) => list.list_name === listName
+    // Find the shopping list by _id
+    const shoppingListIndex = user.shopping_lists.findIndex(
+      (list) => list._id.toString() === listId
     );
 
-    if (listIndex === -1) {
+    if (shoppingListIndex === -1) {
       throw new Error("Shopping list not found");
     }
 
     // Remove the shopping list from the user's shopping_lists array
-    user.shopping_lists.splice(listIndex, 1);
+    user.shopping_lists.splice(shoppingListIndex, 1);
 
     // Save the user object
     await user.save();
@@ -74,7 +74,6 @@ async function deleteShoppingList(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
-
 async function addItemToShoppingList(req, res) {
   try {
     const username = req.user.username;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useRef } from "react";
 
-export default function AddStorage({ onAddStorage }) {
+export default function AddShoppingList({ onAddShoppingList }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const modalRef = useRef(null);
@@ -12,16 +12,20 @@ export default function AddStorage({ onAddStorage }) {
 
   const handleSave = async () => {
     try {
-      await onAddStorage(inputValue);
-      setInputValue(""); // Reset input value after adding storage
-      setIsModalOpen(false); // Close modal after adding storage
+      if (inputValue.trim() !== "") {
+        await onAddShoppingList(inputValue);
+        setInputValue(""); // Reset input value after adding storage
+        setIsModalOpen(false); // Close modal after adding storage
+      } else {
+        console.error("Input value cannot be empty");
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-  AddStorage.propTypes = {
-    onAddStorage: PropTypes.func.isRequired,
+  AddShoppingList.propTypes = {
+    onAddShoppingList: PropTypes.func.isRequired,
   };
 
   return (
@@ -53,7 +57,7 @@ export default function AddStorage({ onAddStorage }) {
         >
           <div className="modal-content bg-secondary">
             <div className="modal-header">
-              <h5 className="modal-title">Enter storage name</h5>
+              <h5 className="modal-title">Give your new list a name!</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -64,7 +68,7 @@ export default function AddStorage({ onAddStorage }) {
             <div className="modal-body">
               <input
                 type="text"
-                placeholder="Fridge"
+                placeholder="Friday Shop"
                 value={inputValue}
                 onChange={handleInputChange}
                 className="form-control border-warning border-opacity-50"
@@ -73,8 +77,9 @@ export default function AddStorage({ onAddStorage }) {
             <div className="modal-footer justify-content-center">
               <button
                 type="button"
-                className="btn btn-primary border-warning border-opacity-50"
+                className={`btn btn-primary border-warning border-opacity-50 ${inputValue.trim() === "" ? "disabled" : ""}`}
                 onClick={handleSave}
+                disabled={inputValue.trim() === ""}
               >
                 <h5 className="mb-0">Create</h5>
               </button>
@@ -89,13 +94,13 @@ export default function AddStorage({ onAddStorage }) {
           </div>
         </div>
       </div>
-      <div className="fixed-bottom text-center" style={{ marginBottom: "10vh" }}>
+      <div className="text-center">
         <button
           type="button"
           className="btn btn-primary"
           onClick={() => setIsModalOpen(true)}
         >
-          <h6 className="p-0 m-0">New Storage</h6>
+          <h6 className="m-0">Add List</h6>
         </button>
       </div>
     </>

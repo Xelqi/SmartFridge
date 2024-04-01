@@ -17,7 +17,7 @@ const router = express.Router();
 
 
 router.post("/add-shopping-list", authenticateToken, addShoppingList);
-router.delete("/delete-shopping-list/:list_name", authenticateToken, deleteShoppingList);
+router.delete("/delete-shopping-list/:list_id", authenticateToken, deleteShoppingList);
 router.get("/get-all-shopping-lists", authenticateToken, getAllShoppingLists);
 router.get("/get-items-from-shopping-list/:list_name", authenticateToken, getItemsFromShoppingList);
 router.post("/add-item-to-shopping-list/:list_name", authenticateToken, addItemToShoppingList);
