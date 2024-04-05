@@ -36,13 +36,13 @@ export default function ItemScanList() {
           })
           .then((data) => {
             console.log("Received from backend:", data);
-            // Check if 'food_items' property exists in the response
-            if (data.food_items) {
-              console.log("Backend response:", data.food_items);
+            // Check if 'items' property exists in the response
+            if (data.items) {
+              console.log("Backend response:", data.items);
               // Set the backend response to the state
-              setBackendResponse(data.food_items);
+              setBackendResponse(data.items);
             } else {
-              console.log("Response does not contain 'food_items'.", data);
+              console.log("Response does not contain 'items'.", data);
               // Handle the error case here
               // For example, setBackendResponse([]) or display an error message
             }
@@ -77,10 +77,16 @@ export default function ItemScanList() {
     setBackendResponse(updatedItems);
   };
 
+  const handleUpdateItem = (index, updatedItem) => {
+    const updatedItems = [...backendResponse];
+    updatedItems[index] = updatedItem;
+    setBackendResponse(updatedItems);
+  };
+
   const handleAddItems = () => {
     if (selectedStorage) {
       // Send backend request to add items to selected storage
-      fetch(`/api/user/add-item/${selectedStorage}`, {
+      fetch(`/api/user/add-item/${selectedStorage._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +121,7 @@ export default function ItemScanList() {
         return response.json();
       })
       .then((data) => {
-        setStorages(data.storages.map((storage) => storage.storage_name));
+        setStorages(data.storages.map((storage) => ({ name: storage.storage_name, _id: storage._id })));
       })
       .catch((error) => console.error("Error fetching storages:", error));
   }, []);
@@ -128,7 +134,7 @@ export default function ItemScanList() {
   return (
     <div className="container-fluid text-center" style={{height: "calc(100vh -57px - 65px)"}}>
       <input
-        className="form-control mt-4 bg-secondary"
+        className="form-control mt-4 bg-secondary w-75 mx-auto rounded-4"
         type="file"
         capture="user"
         accept="image/*"
@@ -140,15 +146,17 @@ export default function ItemScanList() {
       <div className="container" style={{ height: "51vh", overflowY: "auto" }}>
         {backendResponse.map((item, index) => (
           <ItemCard
-            key={index}
-            item={item}
-            onDelete={() => handleDelete(index)} // Pass onDelete function correctly
-          />
+          key={index}
+          item={item}
+          index={index}
+          onUpdate={handleUpdateItem}
+          onDelete={() => handleDelete(index)}
+        />
         ))}
       </div>
       <div className="dropup my-2 mt-lg-4 mt-2">
         <button
-          className="btn btn-primary"
+          className="btn btn-secondary border-dark-subtle"
           type="button"
           id="storageDropdown"
           data-bs-toggle="dropdown"
@@ -157,7 +165,7 @@ export default function ItemScanList() {
         >
           <p className="m-0 p-0 dropdown-toggle">
             {selectedStorage
-              ? capitalizeFirstLetter(selectedStorage)
+              ? capitalizeFirstLetter(selectedStorage.name)
               : "Select Storage"}
           </p>
         </button>
@@ -178,14 +186,14 @@ export default function ItemScanList() {
                 className="dropdown-item"
                 onClick={() => setSelectedStorage(storage)}
               >
-                <p className="m-0">{capitalizeFirstLetter(storage)}</p>
+                <p className="m-0">{capitalizeFirstLetter(storage.name)}</p>
               </button>
             </li>
           ))}
         </ul>
       </div>
 
-      <button className="btn btn-primary mt-lg-2" onClick={handleAddItems}>
+      <button className="btn btn-secondary border-dark-subtle mt-lg-2" onClick={handleAddItems}>
         <p className="m-0">Add Items</p>
       </button>
     </div>

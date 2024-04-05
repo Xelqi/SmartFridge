@@ -154,36 +154,6 @@ export default function Navbar() {
                   <p className="d-flex my-auto m-lg-0">Shopping</p>
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  to="/register"
-                  className={`py-lg-0 d-flex nav-link ${
-                    location.pathname === "/register" ? "active" : ""
-                  }`}
-                >
-                  <img
-                    src="/portrait-user.svg"
-                    alt=""
-                    className="d-flex d-lg-none me-4"
-                  />
-                  <p className="d-flex my-auto m-lg-0">Sign Up</p>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/login"
-                  className={`py-lg-0 d-flex nav-link ${
-                    location.pathname === "/login" ? "active" : ""
-                  }`}
-                >
-                  <img
-                    src="/sign-in.svg"
-                    alt=""
-                    className="d-inline-block d-lg-none me-4"
-                  />
-                  <p className="d-flex my-auto m-lg-0">Log In</p>
-                </Link>
-              </li>
               {/* Render navlink for large screen and btn for small so it looks good */}
               <li className="nav-item align-self-center mt-lg-0 mt-5">
                 <button

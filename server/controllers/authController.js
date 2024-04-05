@@ -76,14 +76,42 @@ function refreshTokenMiddleWare(req, res, next) {
 async function register(req, res) {
   try {
     const { username, email, password } = req.body;
-    // Initialize the user with an empty array for items
-    const user = new User({ username, email, password, items: [] });
+
+    // Initialize the user with default storage and shopping list
+    const user = new User({
+      username,
+      email,
+      password,
+      storage: [
+        {
+          storage_name: "Fridge",
+          items: [
+            {
+              item_name: "milk",
+              category: "dairy",
+              expiryDays: 14,
+              quantity: 1,
+            }
+          ],
+        },
+      ], // Default storage
+      shopping_lists: [
+        {
+          list_name: "Food Shop",
+          items: [{ item_name: "milk", quantity: 1, checked: true },{ item_name: "chocolate", quantity: 1, checked: false }],
+        }
+      ], // Default shopping list
+    });
+
     await user.save();
+
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
+
+module.exports = { register };
 
 async function login(req, res) {
   try {
@@ -105,10 +133,14 @@ async function login(req, res) {
 
     // Set expiration time for cookies
     const tokenExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
-    const refreshTokenExpiration = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    const refreshTokenExpiration = new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    ); // 7 days
 
     res.cookie("token", token, { expires: tokenExpiration });
-    res.cookie("refreshToken", refreshToken, { expires: refreshTokenExpiration });
+    res.cookie("refreshToken", refreshToken, {
+      expires: refreshTokenExpiration,
+    });
 
     res.status(200).json({ message: "Login successful", user }); // Sending JSON response
   } catch (error) {
@@ -116,14 +148,13 @@ async function login(req, res) {
   }
 }
 
-
 // controller/authController.js
 function logout(req, res) {
   try {
     // Clear both the token and refreshToken cookies
     res.clearCookie("token");
     res.clearCookie("refreshToken");
-    res.status(200).json({Success: "Logged Out Successfully"});
+    res.status(200).json({ Success: "Logged Out Successfully" });
   } catch (error) {
     res.status(500).json({ error: "An error occurred while logging out" });
   }

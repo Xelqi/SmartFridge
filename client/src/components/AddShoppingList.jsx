@@ -97,7 +97,7 @@ export default function AddShoppingList({ onAddShoppingList }) {
       <div className="text-center">
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-secondary border-dark-subtle"
           onClick={() => setIsModalOpen(true)}
         >
           <h6 className="m-0">Add List</h6>

@@ -73,8 +73,11 @@ export default function AddStorage({ onAddStorage }) {
             <div className="modal-footer justify-content-center">
               <button
                 type="button"
-                className="btn btn-primary border-warning border-opacity-50"
+                className={`btn btn-primary border-warning border-opacity-50 ${
+                  inputValue.trim() === "" ? "disabled" : ""
+                }`}
                 onClick={handleSave}
+                disabled={inputValue.trim() === ""}
               >
                 <h5 className="mb-0">Create</h5>
               </button>
@@ -89,10 +92,13 @@ export default function AddStorage({ onAddStorage }) {
           </div>
         </div>
       </div>
-      <div className="fixed-bottom text-center" style={{ marginBottom: "10vh" }}>
+      <div
+        className="fixed-bottom text-center"
+        style={{ marginBottom: "10vh" }}
+      >
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-secondary border-dark-subtle"
           onClick={() => setIsModalOpen(true)}
         >
           <h6 className="p-0 m-0">New Storage</h6>

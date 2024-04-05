@@ -34,14 +34,20 @@ const StoragePage = () => {
       if (!response.ok) {
         throw new Error("Failed to add Storage");
       }
-      // Update the list of storages
-      const updatedStorages = [...storages, { storage_name: storageName, items: [] }];
-      setStorages(updatedStorages);
+      
+      // Fetch the updated list of storages after adding a new storage
+      const updatedResponse = await fetch("/api/user/get-all-storage");
+      if (!updatedResponse.ok) {
+        throw new Error("Failed to fetch updated storages");
+      }
+      const updatedData = await updatedResponse.json();
+      
+      // Update the list of storages with the fetched updated list
+      setStorages(updatedData.storages);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div className="row">
       <div className="col-11 mx-auto">

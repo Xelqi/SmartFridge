@@ -200,3 +200,22 @@ div#task input {
   margin-right: 1rem; /* Add margin to separate from the text */
 }
 
+
+.form-control:focus {
+  border-color: #fe724c;
+  outline: none !important;
+  box-shadow: none !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text!important;
+    -webkit-text-fill-color: #000000;
+}
+
+input#floatingUsername:focus {
+  border-color: #fe724c!important;
+  outline: none !important;
+  box-shadow: none !important;
+}

@@ -5,11 +5,9 @@ async function getAllShoppingLists(req, res) {
   try {
     const username = req.user.username;
     const user = await User.findOne({ username });
-    console.log("hello");
     if (!user) {
       throw new Error("User not found");
     }
-    console.log("/n" + user.shopping_lists)
     // Return all shopping lists belonging to the user
     res.status(200).json({ shopping_lists: user.shopping_lists });
   } catch (error) {
@@ -36,6 +34,34 @@ async function addShoppingList(req, res) {
     // Save the user with the updated shopping_lists array
     await user.save();
     res.status(201).json({ message: "Shopping list added successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+async function updateShoppingListName(req, res) {
+  try {
+    const username = req.user.username;
+    const listId = req.params.list_id;
+    const newName = req.body.list_name; // Corrected field name
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const shoppingList = user.shopping_lists.find(
+      (list) => list._id.toString() === listId
+    );
+
+    if (!shoppingList) {
+      throw new Error("Shopping list not found");
+    }
+
+    shoppingList.list_name = newName;
+    await user.save();
+
+    res.status(200).json({ message: "Shopping list name updated successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -215,4 +241,5 @@ module.exports = {
   getItemsFromShoppingList,
   deleteItemFromShoppingList,
   updateShoppingListItem,
+  updateShoppingListName,
 };

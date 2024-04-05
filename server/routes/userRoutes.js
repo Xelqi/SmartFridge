@@ -2,7 +2,7 @@ const express = require("express");
 const {
   addStorage,
   getAllStorages,
-  addItemToStorageByName,
+  addItemToStorageById,
   getItemsFromStorage,
   updateItem,
   deleteItem,
@@ -27,13 +27,13 @@ router.post("/logout", logout);
 
 
 router.post("/add-storage", authenticateToken, addStorage);
-router.delete("/:storage_name", authenticateToken, deleteStorage);
+router.delete("/:storage_id", authenticateToken, deleteStorage);
 router.get("/get-all-storage", authenticateToken, getAllStorages);
-router.get("/:storage_name", authenticateToken, getItemsFromStorage);
-router.get("/:storage_name/:item_id", authenticateToken, getOneItemFromStorage);
-router.post("/add-item/:storage_name", authenticateToken, addItemToStorageByName);
-router.delete("/:storage_name/:itemId", authenticateToken, deleteItem);
-router.put("/:storage_name/:itemId", authenticateToken, updateItem);
+router.get("/:storage_id", authenticateToken, getItemsFromStorage);
+router.get("/:storage_id/:item_id", authenticateToken, getOneItemFromStorage);
+router.post("/add-item/:storage_id", authenticateToken, addItemToStorageById);
+router.delete("/:storage_id/:item_id", authenticateToken, deleteItem);
+router.put("/:storage_id/:item_id", authenticateToken, updateItem);
 
 
 

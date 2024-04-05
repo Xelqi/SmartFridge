@@ -12,6 +12,29 @@ export default function Storages({ storages }) {
     });
     return count;
   }
+  // Function to delete a storage
+const deleteStorage = async (storageId) => {
+  try {
+    const token = localStorage.getItem('accessToken'); // Assuming you're using JWT for authentication and storing the access token in localStorage
+    
+    const response = await fetch(`/api/user/${storageId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+
+    return await response.json(); // Return the response data if successful
+  } catch (error) {
+    throw new Error(error.message); // Throw an error with the error message if request fails
+  }
+};
 
   // PropTypes validation
   Storages.propTypes = {
@@ -20,14 +43,14 @@ export default function Storages({ storages }) {
 
   return (
     <div
-      className="container mt-2 overflow-y-auto"
+      className="container mt-2 overflow-y-auto "
       style={{ height: "calc(100vh - 57px - 65px - 50px)" }}
     >
       {storages.map((storage) => (
         <Link
-          key={storage.storage_name}
-          to={"/storage/" + storage.storage_name}
-          className="card mb-3 rounded-5 shadow-sm text-decoration-none"
+          key={storage._id} // Change to storage._id
+          to={"/storage/" + storage._id} // Change to storage._id
+          className="card mb-3 rounded-5 shadow-sm text-decoration-none bg-secondary"
           style={{ cursor: "pointer" }}
         >
           <div className="card-body">
@@ -37,7 +60,16 @@ export default function Storages({ storages }) {
               <button
                 className="btn p-0 m-0"
                 id="buttons"
-                onClick={() => console.log("Click")}
+                onClick={(event) => {
+                  event.preventDefault(); // Prevent the default behavior of the link
+                  deleteStorage(storage._id).then(() => {
+                    // Optional: If you want to refresh the page after deletion
+                    window.location.reload();
+                  }).catch(error => {
+                    console.error('Error deleting storage:', error);
+                    // Handle error, show error message to user, etc.
+                  });
+                }}
               >
                 <img
                   src="/trash.png"
@@ -46,14 +78,14 @@ export default function Storages({ storages }) {
                 />
               </button>
             </div>
-            <div className="d-flex flex-column justify-content-center align-items-center">
+            <div className="d-flex flex-column mt-2">
               <div className="d-flex">
-                <h5 className="me-2">Items:</h5>
-                <h5 className="m-0">{storage.items.length}</h5>
+                <h5 className="me-auto fst-italic ms-3">Items:</h5>
+                <h5 className="me-2">{storage.items.length}</h5>
               </div>
               <div className="d-flex">
-                <h5 className="me-2">Expiring Soon:</h5>
-                <h5 className="m-0">{countExpiringItems(storage.items)}</h5>
+                <h5 className="me-auto fst-italic ms-3">Expiring Soon:</h5>
+                <h5 className="me-2">{countExpiringItems(storage.items)}</h5>
               </div>
             </div>
           </div>

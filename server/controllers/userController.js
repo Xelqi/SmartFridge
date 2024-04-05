@@ -31,7 +31,7 @@ async function addStorage(req, res) {
 async function deleteStorage(req, res) {
   try {
     const username = req.user.username;
-    const storageName = req.params.storage_name;
+    const storageId = req.params.storage_id; // Change to storage_id
 
     // Find the user by username
     const user = await User.findOne({ username });
@@ -40,9 +40,9 @@ async function deleteStorage(req, res) {
       throw new Error("User not found");
     }
 
-    // Find the index of the storage with the given name
+    // Find the index of the storage with the given _id
     const storageIndex = user.storage.findIndex(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Change to ==
     );
 
     if (storageIndex === -1) {
@@ -73,7 +73,6 @@ async function getAllStorages(req, res) {
       throw new Error("User not found");
     }
     // Return all storages belonging to the user
-    console.log("Get all storages WTF")
     res.status(200).json({ storages: user.storage });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -84,16 +83,16 @@ async function getAllStorages(req, res) {
 async function getItemsFromStorage(req, res) {
   try {
     const username = req.user.username;
-    const storageName = req.params.storage_name; // Extract storage name from request params
+    const storageId = req.params.storage_id; // Change to storage_id
     const user = await User.findOne({ username });
-    console.log(user);
+
     if (!user) {
       throw new Error("User not found");
     }
 
-    // Find the storage by storageName
+    // Find the storage by storage _id
     const storage = user.storage.find(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Change to ==
     );
 
     if (!storage) {
@@ -106,35 +105,45 @@ async function getItemsFromStorage(req, res) {
   }
 }
 
-// Add item to storage by Name
-// Add item to storage by Name
-async function addItemToStorageByName(req, res) {
+async function addItemToStorageById(req, res) {
   try {
     const username = req.user.username;
-    const storageName = req.params.storage_name;
+    const storageId = req.params.storage_id; // Change to storage_id
     const user = await User.findOne({ username });
 
     if (!user) {
       throw new Error("User not found");
     }
     
-    // Find the storage by storageName
+    // Find the storage by storage _id
     const storage = user.storage.find(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Change to ==
     );
 
     if (!storage) {
       throw new Error("Storage not found");
     }
     
-    // Add each item from the request body to the storage's items array
-    for (const item of req.body) {
+    // Check if the request body is an array
+    if (Array.isArray(req.body)) {
+      // Add each item from the request body to the storage's items array
+      for (const item of req.body) {
+        // Validate item properties
+        if (!item.item_name || !item.expiryDays || !item.quantity || !item.category) {
+          throw new Error("Item properties are required");
+        }
+        
+        // Push the item to the storage's items array
+        storage.items.push(item);
+      }
+    } else {
+      // If the request body is not an array, assume it's a single item
+      const item = req.body;
       // Validate item properties
       if (!item.item_name || !item.expiryDays || !item.quantity || !item.category) {
         throw new Error("Item properties are required");
       }
-      
-      // Push the item to the storage's items array
+      // Push the single item to the storage's items array
       storage.items.push(item);
     }
 
@@ -142,7 +151,6 @@ async function addItemToStorageByName(req, res) {
     await user.save();
     res.status(201).json({ message: "Items added to storage successfully" });
   } catch (error) {
-    console.error(error);
     res.status(400).json({ error: error.message });
   }
 }
@@ -152,7 +160,7 @@ async function addItemToStorageByName(req, res) {
 async function getOneItemFromStorage(req, res) {
   try {
     const username = req.user.username;
-    const storageName = req.params.storage_name;
+    const storageId = req.params.storage_id; // Change to storage_id
     const itemId = req.params.item_id;
 
     const user = await User.findOne({ username });
@@ -162,7 +170,7 @@ async function getOneItemFromStorage(req, res) {
     }
 
     const storage = user.storage.find(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Change to ==
     );
 
     if (!storage) {
@@ -191,15 +199,15 @@ async function deleteItem(req, res) {
       throw new Error("User not found");
     }
 
-    const storageName = req.params.storage_name; // Assuming you pass the storage name as a parameter
+    const storageId = req.params.storage_id; // Change to storage_id
     const storage = user.storage.find(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Find storage by _id
     );
     if (!storage) {
       throw new Error("Storage not found");
     }
 
-    const itemId = req.params.itemId;
+    const itemId = req.params.item_id;
     storage.items.pull({ _id: itemId });
     await user.save();
     res.status(200).json({ message: "Item deleted successfully" });
@@ -217,15 +225,15 @@ async function updateItem(req, res) {
       throw new Error("User not found");
     }
 
-    const storageName = req.params.storage_name; // Assuming you pass the storage name as a parameter
+    const storageId = req.params.storage_id; // Change to storage_id
     const storage = user.storage.find(
-      (storage) => storage.storage_name === storageName
+      (storage) => storage._id == storageId // Find storage by _id
     );
     if (!storage) {
       throw new Error("Storage not found");
     }
 
-    const itemId = req.params.itemId;
+    const itemId = req.params.item_id;
     const item = storage.items.id(itemId);
     if (!item) {
       throw new Error("Item not found");
@@ -246,7 +254,7 @@ module.exports = {
   addStorage,
   deleteStorage,
   getAllStorages,
-  addItemToStorageByName,
+  addItemToStorageById,
   getItemsFromStorage,
   getOneItemFromStorage,
   deleteItem,

@@ -7,6 +7,15 @@ function ListForm({ onAdd }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check if the itemName is not null or empty string
+    if (!itemName.trim()) {
+      // Display an alert or any other suitable handling for the user
+      alert("Please enter a valid item name.");
+      return;
+    }
+
+    // Call the onAdd function if itemName is not null or empty string
     onAdd(itemName);
     setItemName(""); // Clear the input field after adding item
   };
