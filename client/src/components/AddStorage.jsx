@@ -94,14 +94,14 @@ export default function AddStorage({ onAddStorage }) {
       </div>
       <div
         className="fixed-bottom text-center"
-        style={{ marginBottom: "10vh" }}
+        style={{ marginBottom: "9svh" }}
       >
         <button
           type="button"
-          className="btn btn-secondary border-dark-subtle"
+          className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-1 py-2"
           onClick={() => setIsModalOpen(true)}
         >
-          <h6 className="p-0 m-0">New Storage</h6>
+          <h6 className="m-0">New Storage</h6>
         </button>
       </div>
     </>

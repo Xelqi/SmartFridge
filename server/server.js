@@ -5,6 +5,7 @@ const cors = require("cors");
 const openaiRoute = require("./routes/openAi");
 const userRoute = require("./routes/userRoutes");
 const shoppingRoute = require("./routes/shoppingRoutes");
+const profileRoute = require("./routes/profileRoutes")
 const mongoose = require("mongoose");
 const { error } = require("console");
 const cookieParser = require('cookie-parser');
@@ -45,3 +46,4 @@ mongoose
 app.use("/api", openaiRoute);
 app.use("/api/user", userRoute);
 app.use("/api/shopping", shoppingRoute);
+app.use("/api/profile", profileRoute);

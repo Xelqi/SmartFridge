@@ -44,7 +44,7 @@ const deleteStorage = async (storageId) => {
   return (
     <div
       className="container mt-2 overflow-y-auto "
-      style={{ height: "calc(100vh - 57px - 65px - 50px)" }}
+      style={{ height: "calc(100svh - 57px - 65px - 60px)" }}
     >
       {storages.map((storage) => (
         <Link

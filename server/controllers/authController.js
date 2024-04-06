@@ -51,7 +51,8 @@ function refreshTokenMiddleWare(req, res, next) {
             // console.log(decoded.username);
             // Generate a new JWT token
             const newToken = jwt.sign(
-              { username: decoded.username },
+              { username: decoded.username,
+                _id: decoded._id, },
               process.env.ACCESS_TOKEN_SECRET,
               { expiresIn: "1h" }
             );
@@ -70,6 +71,39 @@ function refreshTokenMiddleWare(req, res, next) {
     );
   } else {
     return res.status(401).json({ error: "Refresh token not provided" });
+  }
+}
+
+async function generateNewToken(user, res) {
+  try {
+    console.log(user.username)
+    const accessToken = jwt.sign(
+      { username: user.username, _id: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" } // Set access token expiration to 1 hour
+    );
+
+    const refreshToken = jwt.sign(
+      { username: user.username, _id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" } // Set refresh token expiration to 7 days
+    );
+
+    // Set expiration time for cookies
+    const accessTokenExpiration = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const refreshTokenExpiration = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+    // Clear the existing tokens cookies
+    res.clearCookie("token");
+    res.clearCookie("refreshToken");
+
+    // Set the new tokens in cookies
+    res.cookie("token", accessToken, { expires: accessTokenExpiration, httpOnly: true });
+    res.cookie("refreshToken", refreshToken, { expires: refreshTokenExpiration, httpOnly: true });
+
+    return { accessToken, refreshToken, accessTokenExpiration, refreshTokenExpiration };
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -121,18 +155,20 @@ async function login(req, res) {
       throw new Error("Invalid email or password");
     }
     const token = jwt.sign(
-      { username: user.username },
+      { username: user.username,
+        _id: user._id, },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5m" }
+      { expiresIn: "1h" }
     );
     const refreshToken = jwt.sign(
-      { username: user.username },
+      { username: user.username,
+        _id: user._id, },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
 
     // Set expiration time for cookies
-    const tokenExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+    const tokenExpiration = new Date(Date.now() + 60 * 60 * 1000); // 5 minutes
     const refreshTokenExpiration = new Date(
       Date.now() + 7 * 24 * 60 * 60 * 1000
     ); // 7 days
@@ -148,6 +184,8 @@ async function login(req, res) {
   }
 }
 
+
+
 // controller/authController.js
 function logout(req, res) {
   try {
@@ -161,4 +199,4 @@ function logout(req, res) {
 }
 
 // bycrpyt.compare(password, user.password,) (err, response) => { if(response) { res.json("Success")} else {res.json("Invalid Password")}}
-module.exports = { register, login, logout, authenticateToken };
+module.exports = { register, login, logout, authenticateToken, generateNewToken };

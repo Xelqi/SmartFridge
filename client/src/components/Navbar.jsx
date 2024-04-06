@@ -44,7 +44,7 @@ export default function Navbar() {
           />
           Smart Fridge
         </Link>
-         
+
         {/* Off Canvas Navbar */}
         <div
           className="offcanvas offcanvas-start rounded-end-3"
@@ -96,19 +96,20 @@ export default function Navbar() {
             <ul className="navbar-nav align-items-start">
               <li className="nav-item">
                 <Link
-                  to="/"
-                  className={`pt-sm-0 py-lg-0 d-flex nav-link ${
-                    location.pathname === "/" ? "active" : ""
+                  to="/storage"
+                  className={`py-lg-0 d-flex nav-link ${
+                    location.pathname === "/storage" ? "active" : ""
                   }`}
                 >
                   <img
-                    src="/home-icon.svg"
+                    src="/fi-rr-cube.svg"
                     alt=""
                     className="d-flex d-lg-none me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Home</p>
+                  <p className="d-flex my-auto m-lg-0">Storages</p>
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link
                   to="/item-scan"
@@ -124,21 +125,24 @@ export default function Navbar() {
                   <p className="d-flex my-auto m-lg-0">Quick Add</p>
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link
-                  to="/storage"
+                  to="/cooking"
                   className={`py-lg-0 d-flex nav-link ${
-                    location.pathname === "/storage" ? "active" : ""
+                    location.pathname === "/cooking" ? "active" : ""
                   }`}
                 >
                   <img
-                    src="/pizza-slice.svg"
+                    src="/utensils.png"
+                    style={{ width: "25px", height: "25px" }}
                     alt=""
                     className="d-flex d-lg-none me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Storages</p>
+                  <p className="d-flex my-auto m-lg-0">Cooking</p>
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link
                   to="/shopping"
@@ -147,13 +151,32 @@ export default function Navbar() {
                   }`}
                 >
                   <img
-                    src="/shopping-cart.svg"
+                    src="/shopping-cart.png"
+                    style={{ width: "25px", height: "25px" }}
                     alt=""
                     className="d-flex d-lg-none me-4"
                   />
                   <p className="d-flex my-auto m-lg-0">Shopping</p>
                 </Link>
               </li>
+
+              <li className="nav-item">
+                <Link
+                  to="/profile"
+                  className={`pt-sm-0 py-lg-0 d-flex nav-link ${
+                    location.pathname === "/profile" ? "active" : ""
+                  }`}
+                >
+                  <img
+                    src="/user.png"
+                    alt=""
+                    style={{ width: "25px", height: "25px" }}
+                    className="d-flex d-lg-none me-4"
+                  />
+                  <p className="d-flex my-auto m-lg-0">Profile</p>
+                </Link>
+              </li>
+
               {/* Render navlink for large screen and btn for small so it looks good */}
               <li className="nav-item align-self-center mt-lg-0 mt-5">
                 <button

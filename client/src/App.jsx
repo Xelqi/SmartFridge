@@ -11,7 +11,9 @@ import RegisterPage from "./pages/RegisterPage";
 import ItemScanPage from "./pages/ItemScanPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
 import StoragePage from "./pages/StoragePage";
-import  StorageItemsPage  from "./pages/StorageItemsPage";
+import StorageItemsPage  from "./pages/StorageItemsPage";
+import CookingPage from "./pages/CookingPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const location = useLocation();
@@ -52,6 +54,8 @@ function App() {
         <Route path="/shopping" element={<ShoppingCartPage/>} />
         <Route path="/storage" element={<StoragePage/>} />
         <Route path="/storage/:storage_name" element={<StorageItemsPage/>} />
+        <Route path="/cooking" element={<CookingPage/>}/>
+        <Route path="/profile" element={<ProfilePage/>}/>
       </Routes>
       
       {shouldRenderMobileNav && <MobileNav />} {/* Conditionally render the MobileNav */}

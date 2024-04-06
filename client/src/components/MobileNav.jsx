@@ -9,42 +9,67 @@ export default function MobileNav() {
   // Update activeNavItem based on location change
   useEffect(() => {
     const pathname = location.pathname;
-    if (pathname === "/") setActiveNavItem("home");
-    else if (pathname === "/item-scan") setActiveNavItem("item-scan");
+    if (pathname === "/cooking") setActiveNavItem("cooking");
+    else if (pathname === "/profile") setActiveNavItem("profile");
     else if (pathname === "/storage") setActiveNavItem("storage");
     else if (pathname === "/shopping") setActiveNavItem("shopping");
+    else setActiveNavItem("");
   }, [location]);
 
   return (
     <nav className="navbar fixed-bottom navbar-expand-lg navbar-light bg-primary shadow rounded-top d-lg-none">
       <div className="container-fluid justify-content-around">
         <Link
-          to="/"
-          className={`navbar-brand ${activeNavItem === "home" ? "active" : ""}`}
-          onClick={() => setActiveNavItem("home")}
-        >
-          <img src="/home-icon.svg" alt="" />
-        </Link>
-        <Link
-          to="/item-scan"
-          className={`navbar-brand ${activeNavItem === "item-scan" ? "active" : ""}`}
-          onClick={() => setActiveNavItem("item-scan")}
-        >
-          <img src="/camera.svg" alt="" />
-        </Link>
-        <Link
           to="/storage"
-          className={`navbar-brand ${activeNavItem === "storage" ? "active" : ""}`}
+          className={`navbar-brand ${
+            activeNavItem === "storage" ? "active" : ""
+          }`}
           onClick={() => setActiveNavItem("storage")}
         >
-          <img src="/pizza-slice.svg" alt="" />
+          <img
+            src="/fi-rr-cube.svg"
+            style={{ width: "25px", height: "25px" }}
+            alt=""
+          />
+        </Link>
+        <Link
+          to="/cooking"
+          className={`navbar-brand ${
+            activeNavItem === "cooking" ? "active" : ""
+          }`}
+          onClick={() => setActiveNavItem("cooking")}
+        >
+          <img
+            src="/utensils.png"
+            style={{ width: "25px", height: "25px" }}
+            alt=""
+          />
         </Link>
         <Link
           to="/shopping"
-          className={`navbar-brand ${activeNavItem === "shopping" ? "active" : ""}`}
+          className={`navbar-brand ${
+            activeNavItem === "shopping" ? "active" : ""
+          }`}
           onClick={() => setActiveNavItem("shopping")}
         >
-          <img src="/shopping-cart.svg" alt="" />
+          <img
+            src="/shopping-cart.png"
+            style={{ width: "25px", height: "25px" }}
+            alt=""
+          />
+        </Link>
+        <Link
+          to="/profile"
+          className={`navbar-brand ${
+            activeNavItem === "profile" ? "active" : ""
+          }`}
+          onClick={() => setActiveNavItem("profile")}
+        >
+          <img
+            src="/user.png"
+            alt=""
+            style={{ width: "25px", height: "25px" }}
+          />
         </Link>
       </div>
     </nav>
