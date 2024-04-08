@@ -18,7 +18,7 @@ async function getAllShoppingLists(req, res) {
 async function addShoppingList(req, res) {
   try {
     const username = req.user.username;
-    const { list_name } = req.body;
+    const { list_name, items } = req.body;
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -26,7 +26,7 @@ async function addShoppingList(req, res) {
     }
 
     // Create a new shopping list object with the provided list_name
-    const newShoppingList = { list_name, items: [] };
+    const newShoppingList = { list_name, items: items || [] }; // Use provided items or default to an empty array
 
     // Push the new shopping list to the user's shopping_lists array
     user.shopping_lists.push(newShoppingList);

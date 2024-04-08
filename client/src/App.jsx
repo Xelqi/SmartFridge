@@ -14,6 +14,7 @@ import StoragePage from "./pages/StoragePage";
 import StorageItemsPage  from "./pages/StorageItemsPage";
 import CookingPage from "./pages/CookingPage";
 import ProfilePage from "./pages/ProfilePage";
+import Recipe from "./pages/Recipe";
 
 function App() {
   const location = useLocation();
@@ -56,6 +57,7 @@ function App() {
         <Route path="/storage/:storage_name" element={<StorageItemsPage/>} />
         <Route path="/cooking" element={<CookingPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/recipe/:id" element={<Recipe/>}/>
       </Routes>
       
       {shouldRenderMobileNav && <MobileNav />} {/* Conditionally render the MobileNav */}

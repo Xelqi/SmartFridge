@@ -17,7 +17,7 @@ export default function MobileNav() {
   }, [location]);
 
   return (
-    <nav className="navbar fixed-bottom navbar-expand-lg navbar-light bg-primary shadow rounded-top d-lg-none">
+    <nav className="navbar fixed-bottom navbar-expand-lg navbar-light bg-primary shadow rounded-top d-lg-none" id="bottom-navbar">
       <div className="container-fluid justify-content-around">
         <Link
           to="/storage"
