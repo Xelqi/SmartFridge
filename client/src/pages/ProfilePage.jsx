@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ChangePasswordForm from "../components/ChangePassword";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -9,6 +10,7 @@ const ProfilePage = () => {
   const [editedUser, setEditedUser] = useState(null);
   const [passwordInput, setPasswordInput] = useState(""); // State for password input
   const [changingPassword, setChangingPassword] = useState(false); // State for changing password mode
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for showing delete confirmation modal
 
   useEffect(() => {
     // Fetch user details when component mounts
@@ -64,7 +66,7 @@ const ProfilePage = () => {
       // Perform password verification here
       // For demonstration purposes, I'm assuming passwordInput matches the user's password
       if (passwordInput !== user.password) {
-        alert("Incorrect password")
+        alert("Incorrect password");
         throw new Error("Incorrect password");
       }
 
@@ -116,8 +118,35 @@ const ProfilePage = () => {
   };
 
   if (changingPassword) {
-    return <ChangePasswordForm onCancel={handleCancelChangePassword} user={user}  />;
+    return (
+      <ChangePasswordForm onCancel={handleCancelChangePassword} user={user} />
+    );
   }
+
+  const handleDeleteAccount = async () => {
+    try {
+      // Perform delete account action
+      const response = await fetch("/api/profile", {
+        method: "DELETE",
+        headers: {
+          // Add any necessary headers for authentication
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete account");
+      }
+
+      // Clear all cookies
+      const cookies = document.cookie.split("; ");
+      for (const cookie of cookies) {
+        const [name] = cookie.split("=");
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      }
+      alert("Account deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
 
   return (
     <div
@@ -258,10 +287,18 @@ const ProfilePage = () => {
           <button
             type="button"
             className="btn btn-secondary border-dark-subtle rounded-4 w-75 mx-auto mb-3"
-            //   onClick={handlePasswordChange}
+            style={{maxWidth: "300px"}}
+            onClick={() => setShowDeleteConfirmation(true)} // Show delete confirmation modal
           >
             <p className="m-0">Delete Account</p>
           </button>
+        )}
+        {showDeleteConfirmation && (
+          <DeleteConfirmation
+            user={user}
+            onDeleteAccount={handleDeleteAccount}
+            onCancel={() => setShowDeleteConfirmation(false)} // Close delete confirmation modal
+          />
         )}
       </div>
     </div>

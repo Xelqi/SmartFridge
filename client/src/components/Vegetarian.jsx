@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Link } from "react-router-dom";
@@ -10,49 +9,6 @@ export default function Vegetarian() {
   useEffect(() => {
     getVegan();
   }, []);
-
-  const Wrapper = styled.div`
-    margin: 2rem 0rem;
-  `;
-
-  const Card = styled.div`
-    min-height: 15rem;
-    border-radius: 2rem;
-    overflow: hidden;
-    position: relative;
-
-    img {
-      border-radius: 2rem;
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    p {
-      position: absolute;
-      z-index: 10;
-      left: 50%;
-      bottom: 0%;
-      transform: translate(-50%, 0%);
-      color: white;
-      width: 100%;
-      text-align: center;
-      height: 40%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  `;
-
-  const Gradient = styled.div`
-    z-index: 3;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-  `;
 
   const getVegan = async () => {
     const check = localStorage.getItem("vegan");
@@ -65,7 +21,6 @@ export default function Vegetarian() {
           `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=10&tags=vegan`
         );
         const data = await api.json();
-        console.log(data);
         setVegan(data.recipes);
         localStorage.setItem("vegan", JSON.stringify(data.recipes));
       } catch (error) {
@@ -73,9 +28,10 @@ export default function Vegetarian() {
       }
     }
   };
+  
   return (
     <div>
-      <Wrapper>
+      <div className="my-1">
         <h3 className="text-center">Vegan Picks</h3>
         <Splide
           options={{
@@ -100,33 +56,18 @@ export default function Vegetarian() {
           {vegan.map((recipe) => {
             return (
               <SplideSlide key={recipe.id}>
-                <Card>
+                <div style={{ minHeight: "14rem", borderRadius: "2rem", overflow: "hidden", position: "relative" }}>
                   <Link to={"/recipe/" + recipe.id}>
-                    <p>{recipe.title}</p>
-                    <img src={recipe.image} alt={recipe.title} />
-                    <Gradient />
+                    <p style={{ position: "absolute", zIndex: 10, left: "50%", bottom: "0%", transform: "translate(-50%, 0%)", color: "white", width: "100%", textAlign: "center", height: "40%", display: "flex", justifyContent: "center", alignItems: "center" }}>{recipe.title}</p>
+                    <img src={recipe.image} alt={recipe.title} style={{ borderRadius: "2rem", position: "absolute", left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <div style={{ zIndex: 3, position: "absolute", width: "100%", height: "100%", background: "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))" }} />
                   </Link>
-                </Card>
+                </div>
               </SplideSlide>
             );
           })}
         </Splide>
-      </Wrapper>
+      </div>
     </div>
   );
-}
-
-{
-  /* <div className="card" style={{ flex: '0 0 auto', marginRight: '10px'}} key={recipe.id}>
-                        <img src={recipe.image} className="card-img-top" alt={recipe.title} />
-                        <div className="card-body pt-1">
-                            <h5 className="card-title">{recipe.title}</h5>
-                            <p className="mb-0">Serves: {recipe.servings}</p>
-                            <p className="mb-0">Cooking Time: {recipe.readyInMinutes}m</p>
-                            {recipe.vegetarian && <p className="mb-0">Vegetarian</p>}
-                            {recipe.vegan && <p className="mb-0">Vegan</p>}
-                            {recipe.dairyFree && <p className="mb-0">Dairy Free</p>}
-                            {recipe.glutenFree && <p className="mb-0">Gluten Free</p>}
-                        </div>
-                    </div> */
 }

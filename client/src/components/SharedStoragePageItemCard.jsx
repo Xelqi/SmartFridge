@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import EditItem from "./EditItem";
+import SharedStorageEditItem from "./SharedStorageEditItem";
 
-function StoragePageItemCard({ item, onDelete, onItemNewValue }) {
+function SharedStoragePageItemCard({ item, onDelete, onItemNewValue, user_id }) {
   const [itemName, setItemName] = useState(item.item_name);
   const [category, setCategory] = useState(item.category);
   const [quantity, setQuantity] = useState(item.quantity);
@@ -25,17 +25,21 @@ function StoragePageItemCard({ item, onDelete, onItemNewValue }) {
       setter === setQuantity ? quantity + value : expiryDays + value;
     // Ensure the new value is not less than 1
     if (newValue < 1) return;
-
     setter((prevValue) => prevValue + value);
     // Perform update with API call
-    fetch(`/api/user/${storage_name}/${item._id}`, {
+    fetch(`/api/storage/update-item`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        quantity: setter === setQuantity ? newValue : quantity,
-        expiryDays: setter === setExpiryDays ? newValue : expiryDays,
+        storage_id: storage_name,
+        item_id: item._id,
+        target_user_id: user_id,
+        updatedItem: {
+          quantity: setter === setQuantity ? newValue : quantity,
+          expiryDays: setter === setExpiryDays ? newValue : expiryDays,
+        },
       }),
     })
       .then((response) => {
@@ -45,6 +49,7 @@ function StoragePageItemCard({ item, onDelete, onItemNewValue }) {
         return response.json();
       })
       .then(() => {
+      
         // Pass updated values to EditItem component
         handleItemUpdate({
           ...item,
@@ -62,10 +67,11 @@ function StoragePageItemCard({ item, onDelete, onItemNewValue }) {
     <div className="px-4 py-2 border mb-2 rounded-5 bg-secondary bg-opacity-75 shadow-sm">
       {/* Conditionally render Edit button or Edit popover */}
       {isPopoverOpen ? (
-        <EditItem
+        <SharedStorageEditItem
           item={{ ...item, quantity, expiryDays }}
           onClose={() => setIsPopoverOpen(false)}
           storage_name={storage_name}
+          user_id={user_id}
           onItemUpdate={handleItemUpdate}
         />
       ) : (
@@ -195,10 +201,11 @@ function ExpirySection({ value, onIncrease, onDecrease }) {
   );
 }
 
-StoragePageItemCard.propTypes = {
+SharedStoragePageItemCard.propTypes = {
   item: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
   onItemNewValue: PropTypes.func.isRequired,
+  user_id: PropTypes.string,
 };
 
 QuantitySection.propTypes = {
@@ -213,4 +220,4 @@ ExpirySection.propTypes = {
   onDecrease: PropTypes.func.isRequired,
 };
 
-export default StoragePageItemCard;
+export default SharedStoragePageItemCard;

@@ -1,6 +1,27 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
+
+const notificationSchema = Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    body: {
+      type: String,
+      required: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+    read: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
 const userSchema = Schema(
   {
@@ -17,6 +38,10 @@ const userSchema = Schema(
     password: {
       type: String,
       required: true,
+    },
+    fcmToken: {
+      type: String,
+      default: null,
     },
     storage: [
       {
@@ -41,10 +66,25 @@ const userSchema = Schema(
             quantity: {
               type: Number,
               required: true,
-            }
+            },
           },
         ],
-      }
+        usersWithAccess: [
+          {
+            user: { type: Schema.Types.ObjectId, ref: "User" },
+          },
+        ],
+      },
+    ],
+    otherStorages: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        storageId: { type: Schema.Types.ObjectId },
+        permissions: {
+          read: { type: Boolean, required: true },
+          write: { type: Boolean, required: true },
+        },
+      },
     ],
     shopping_lists: [
       {
@@ -62,14 +102,15 @@ const userSchema = Schema(
               type: Number,
               required: true,
             },
-            checked: {  // New field for checkbox status
+            checked: {
               type: Boolean,
-              default: false, // Default value is false (unchecked)
-            }
-          }
-        ]
-      }
-    ]
+              default: false,
+            },
+          },
+        ],
+      },
+    ],
+    notifications: [notificationSchema], // Array of notification objects
   },
   { timestamps: true }
 );

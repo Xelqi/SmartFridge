@@ -26,9 +26,9 @@ h6, input {
 /* Main Navbar */
 
 /* Primary background color for large screens */
-@media (min-width: 768px) {
+@media (min-width: 780px) {
   #navbar-top {
-    background-color: #fe724c !important; /* Your primary color for large screens */
+    background-color: #fe734ca6 !important; /* Your primary color for large screens */
   }
 }
 
@@ -218,4 +218,110 @@ input#floatingUsername:focus {
   border-color: #fe724c!important;
   outline: none !important;
   box-shadow: none !important;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999; /* Ensure it's above other content */
+  max-width: 80%;
+  overflow-y: auto;
+}
+
+.item-list h3 {
+  margin-top: 0;
+}
+
+.item-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-list li {
+  margin-bottom: 5px;
+}
+
+.item-list button {
+  margin-top: 10px;
+}
+
+
+/* App.css */
+.notifications-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.bell-icon {
+  cursor: pointer;
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 40px; /* Adjust as needed */
+  right: 0;
+  width: 200px; /* Adjust as needed */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.notifications-panel h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.notifications-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notifications-panel li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notifications-panel li:last-child {
+  border-bottom: none;
+}
+
+.notifications-panel button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
 }

@@ -61,10 +61,10 @@ export default function Register() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center h-100 flex-column">
+    <div className="container d-flex justify-content-center align-items-center  h-100 flex-column">
       <form
         onSubmit={handleSubmit}
-        className="rounded-3 p-3 bg-light w-100 mb-3 mt-auto"
+        className="rounded-3 p-3 bg-light w-100 mb-auto mt-auto"
         style={{ maxWidth: "400px" }}
       >
         <h1 className="m-0 text-center fw-bold fst-italic mb-2">

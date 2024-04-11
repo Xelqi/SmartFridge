@@ -114,7 +114,7 @@ async function addItemToStorageById(req, res) {
     if (!user) {
       throw new Error("User not found");
     }
-    
+
     // Find the storage by storage _id
     const storage = user.storage.find(
       (storage) => storage._id == storageId // Change to ==
@@ -123,16 +123,21 @@ async function addItemToStorageById(req, res) {
     if (!storage) {
       throw new Error("Storage not found");
     }
-    
+
     // Check if the request body is an array
     if (Array.isArray(req.body)) {
       // Add each item from the request body to the storage's items array
       for (const item of req.body) {
         // Validate item properties
-        if (!item.item_name || !item.expiryDays || !item.quantity || !item.category) {
+        if (
+          !item.item_name ||
+          !item.expiryDays ||
+          !item.quantity ||
+          !item.category
+        ) {
           throw new Error("Item properties are required");
         }
-        
+
         // Push the item to the storage's items array
         storage.items.push(item);
       }
@@ -140,7 +145,12 @@ async function addItemToStorageById(req, res) {
       // If the request body is not an array, assume it's a single item
       const item = req.body;
       // Validate item properties
-      if (!item.item_name || !item.expiryDays || !item.quantity || !item.category) {
+      if (
+        !item.item_name ||
+        !item.expiryDays ||
+        !item.quantity ||
+        !item.category
+      ) {
         throw new Error("Item properties are required");
       }
       // Push the single item to the storage's items array
@@ -154,7 +164,6 @@ async function addItemToStorageById(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
-
 
 // Get one item from storage by _id
 async function getOneItemFromStorage(req, res) {

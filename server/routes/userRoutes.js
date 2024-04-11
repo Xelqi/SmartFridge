@@ -1,5 +1,6 @@
 const express = require("express");
 const {
+  searchUsers,
   addStorage,
   getAllStorages,
   addItemToStorageById,

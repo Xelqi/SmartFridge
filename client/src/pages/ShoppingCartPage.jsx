@@ -6,7 +6,6 @@ const ShoppingCartPage = () => {
   const [shoppingLists, setShoppingLists] = useState([]);
 
   useEffect(() => {
-    console.log("Fetching shopping lists...");
     const fetchShoppingLists = async () => {
       try {
         const response = await fetch("/api/shopping/get-all-shopping-lists");

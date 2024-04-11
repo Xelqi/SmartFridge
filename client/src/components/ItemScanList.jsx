@@ -7,19 +7,21 @@ export default function ItemScanList() {
   const [backendResponse, setBackendResponse] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState("");
   const [storages, setStorages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Function to handle image upload and OCR processing
   function handleChange(e) {
     const selectedFile = e.target.files[0];
-    console.log(selectedFile);
+ 
     setFile(URL.createObjectURL(selectedFile));
-  
+
     if (selectedFile) {
       // Reset backendResponse state when a new file is selected
       setBackendResponse([]);
+      setLoading(true);
       Tesseract.recognize(selectedFile, "eng").then(({ data: { text } }) => {
-        console.log("Text:", text);
-  
+    
+
         // Send the extracted text to your backend
         fetch("/api/process-text", {
           method: "POST",
@@ -35,20 +37,23 @@ export default function ItemScanList() {
             return response.json();
           })
           .then((data) => {
-            console.log("Received from backend:", data);
+          
             // Check if 'items' property exists in the response
             if (data.items) {
-              console.log("Backend response:", data.items);
+             
               // Set the backend response to the state
               setBackendResponse(data.items);
             } else {
-              console.log("Response does not contain 'items'.", data);
+              alert("Response does not contain 'items'.");
               // Handle the error case here
               // For example, setBackendResponse([]) or display an error message
             }
           })
-          .catch((error) => {
-            console.error("Error receiving data from backend:", error);
+          .catch(() => {
+           alert("Error receiving data from backend");
+          })
+          .finally(() => {
+            setLoading(false); // Set loading state to false when processing finishes
           });
       });
     } else {
@@ -59,7 +64,6 @@ export default function ItemScanList() {
       e.target.value = null;
     }
   }
-  
 
   // Cleanup on component unmount or when 'file' changes
   useEffect(() => {
@@ -94,16 +98,15 @@ export default function ItemScanList() {
         body: JSON.stringify(backendResponse),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(() => {
           // Handle response
-          console.log("Items added to storage:", data);
           alert("Items added Successfully");
           setFile(null);
           setSelectedStorage("");
           setBackendResponse([]);
         })
-        .catch((error) => {
-          console.error("Error adding items to storage:", error);
+        .catch(() => {
+          alert("Error adding items to storage:");
         });
     } else {
       // Handle case when no storage is selected
@@ -121,7 +124,12 @@ export default function ItemScanList() {
         return response.json();
       })
       .then((data) => {
-        setStorages(data.storages.map((storage) => ({ name: storage.storage_name, _id: storage._id })));
+        setStorages(
+          data.storages.map((storage) => ({
+            name: storage.storage_name,
+            _id: storage._id,
+          }))
+        );
       })
       .catch((error) => console.error("Error fetching storages:", error));
   }, []);
@@ -132,7 +140,7 @@ export default function ItemScanList() {
   }
 
   return (
-    <div className="container-fluid text-center" style={{height: "calc(100svh -57px - 65px)"}}>
+    <div className="container-fluid text-center" style={{height: "calc(100vh - 57px - 65px)"}}>
       <input
         className="form-control mt-4 bg-secondary w-75 mx-auto rounded-4"
         type="file"
@@ -144,24 +152,32 @@ export default function ItemScanList() {
         <h4 className="mt-3">Items Found in Receipt</h4>
       </div>
       <div className="container" style={{ height: "51vh", overflowY: "auto" }}>
-        {backendResponse.map((item, index) => (
-          <ItemCard
-          key={index}
-          item={item}
-          index={index}
-          onUpdate={handleUpdateItem}
-          onDelete={() => handleDelete(index)}
-        />
-        ))}
+        {loading ? ( // Conditional rendering for the spinner while loading
+          <div className="d-flex justify-content-center mt-5">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        ) : (
+          backendResponse.map((item, index) => (
+            <ItemCard
+              key={index}
+              item={item}
+              index={index}
+              onUpdate={handleUpdateItem}
+              onDelete={() => handleDelete(index)}
+            />
+          ))
+        )}
       </div>
       <div className="dropup my-2 mt-lg-4 mt-2">
         <button
-          className="btn btn-secondary border-dark-subtle"
+          className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-1 py-2"
           type="button"
           id="storageDropdown"
           data-bs-toggle="dropdown"
           aria-expanded="false"
-          style={{ width: "130px" }} // Adjust the width as needed
+          style={{maxWidth: "200px"}}
         >
           <p className="m-0 p-0 dropdown-toggle">
             {selectedStorage
@@ -170,7 +186,7 @@ export default function ItemScanList() {
           </p>
         </button>
         <ul
-          className="dropdown-menu bg-secondary pb-0 pt-0 text-center"
+          className="dropdown-menu bg-primary p-0 text-center w-50 rounded-4"
           aria-labelledby="storageDropdown"
           style={{
             maxHeight: "10rem",
@@ -178,6 +194,7 @@ export default function ItemScanList() {
             bottom: "100%",
             width: "130px",
             minWidth: "130px",
+            maxWidth: "200px"
           }}
         >
           {storages.map((storage, index) => (
@@ -193,8 +210,8 @@ export default function ItemScanList() {
         </ul>
       </div>
 
-      <button className="btn btn-secondary border-dark-subtle mt-lg-2" onClick={handleAddItems}>
-        <p className="m-0">Add Items</p>
+      <button className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-4 py-2" onClick={handleAddItems} style={{maxWidth: "200px"}}>
+        <h6 className="m-0">Add Items</h6>
       </button>
     </div>
   );

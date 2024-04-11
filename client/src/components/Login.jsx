@@ -36,8 +36,6 @@ export default function Login() {
         throw new Error("Failed to login");
         
       }
-      const data = await response.json();
-      console.log(data.token);
       window.location.href = "/storage";
     } catch (error) {
       console.error("Error:", error);

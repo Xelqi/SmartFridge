@@ -99,6 +99,7 @@ export default function AddStorage({ onAddStorage }) {
         <button
           type="button"
           className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-1 py-2"
+          style={{maxWidth: "200px"}}
           onClick={() => setIsModalOpen(true)}
         >
           <h6 className="m-0">New Storage</h6>

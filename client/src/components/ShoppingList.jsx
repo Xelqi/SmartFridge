@@ -206,8 +206,8 @@ function ShoppingList({ shoppingLists, setShoppingLists }) {
 
   return (
     <div
-      className="container mt-2 overflow-y-auto"
-      style={{ height: "calc(100svh - 57px - 65px - 50px)" }}
+      className="container mt-4 overflow-y-auto"
+      style={{ height: "calc(100svh - 57px - 65px - 70px)" }}
     >
       {shoppingLists.map((list) => {
         const checkedItemsCount = list.items.filter(
@@ -217,8 +217,8 @@ function ShoppingList({ shoppingLists, setShoppingLists }) {
 
         return (
           <div
-            className="card mb-3 rounded-5 shadow-sm"
-            style={{ cursor: "pointer" }}
+            className="card mb-3 rounded-5 shadow-sm mx-auto"
+            style={{ cursor: "pointer", maxWidth: "450px" }}
             key={list._id}
           >
             <div className="card-body">
@@ -262,7 +262,12 @@ function ShoppingList({ shoppingLists, setShoppingLists }) {
                           style={{ width: "25px", height: "25px" }}
                         />
                       </button>
-                      <h3 className="mx-auto">{list.list_name}</h3>
+                      <h3
+                        className="mx-auto text-center"
+                       
+                      >
+                        {list.list_name}
+                      </h3>
                       <button
                         className="btn p-0 m-0"
                         id="buttons"
@@ -306,7 +311,7 @@ function ShoppingList({ shoppingLists, setShoppingLists }) {
                 <ListForm
                   onAdd={(itemName) => addItem(itemName, list.list_name)}
                 />
-                <div style={{ overflowY: "auto", maxHeight: "300px" }}>
+                <div>
                   {list.items.map((item) => (
                     <ShoppingListItem
                       key={item._id}

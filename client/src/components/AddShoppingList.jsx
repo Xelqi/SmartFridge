@@ -17,7 +17,7 @@ export default function AddShoppingList({ onAddShoppingList }) {
         setInputValue(""); // Reset input value after adding storage
         setIsModalOpen(false); // Close modal after adding storage
       } else {
-        console.error("Input value cannot be empty");
+        alert("Input value cannot be empty");
       }
     } catch (error) {
       console.error(error);
@@ -98,6 +98,7 @@ export default function AddShoppingList({ onAddShoppingList }) {
         <button
           type="button"
           className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-1 py-2"
+          style={{maxWidth: "200px"}}
           onClick={() => setIsModalOpen(true)}
         >
           <h6 className="m-0">Create List</h6>

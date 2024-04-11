@@ -18,10 +18,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg bg-transparent rounded-bottom"
-      id="navbar-top"
-    >
+    <nav className="navbar bg-transparent rounded-bottom" id="navbar-top">
       <div className="container-fluid">
         <button
           className="navbar-toggler shadow-sm"
@@ -34,16 +31,6 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="/" className="navbar-brand d-none d-lg-block">
-          <img
-            src="/shopping-cart.svg"
-            alt="logo"
-            width="25"
-            height="25"
-            className="d-inline-block align-text-top"
-          />
-          Smart Fridge
-        </Link>
 
         {/* Off Canvas Navbar */}
         <div
@@ -54,82 +41,57 @@ export default function Navbar() {
           style={{ width: "55%" }}
         >
           {/* Header of Off Canvas */}
-          <div className="offcanvas-header d-flex flex-column align-items-center mb-auto d-lg-none">
+          <div className="offcanvas-header d-flex flex-column align-items-center">
             <div style={{ width: "100%" }}>
               <button
                 type="button"
-                className="btn-close d-flex ms-auto d-lg-none"
+                className="btn-close d-flex ms-auto"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
             </div>
-            {/* Avatar */}
-            <img
-              className="d-flex align-self-start"
-              src="/pizza-slice.svg"
-              alt=""
-              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-            />
-            {/* Name and Email */}
-            <div className="align-self-start mt-3">
-              <h5
-                style={{
-                  marginBottom: "0",
-                }}
-              >
-                Milo L
-              </h5>
-              <p
-                style={{
-                  color: "grey",
-                  marginTop: "0",
-                  marginBottom: "0",
-                  fontSize: "13px",
-                }}
-              >
-                milek1093@gmail.com
-              </p>
-            </div>
           </div>
           {/* Body of off canvas */}
-          <div className="offcanvas-body pt-2 pt-lg-0">
-            <ul className="navbar-nav align-items-start">
+          <div className="offcanvas-body pt-2">
+            <div className="w-100 mx-auto">
+              <img src="/logo-cropped.png" alt="" className="img-fluid" />
+              <h6 className="text-muted fst-italic text-center mt-2"> Where simplicity meets sustainability</h6>
+            </div>
+            <ul
+              className="navbar-nav mt-4"
+            >
               <li className="nav-item">
                 <Link
                   to="/storage"
-                  className={`py-lg-0 d-flex nav-link ${
+                  className={` d-flex nav-link ${
                     location.pathname === "/storage" ? "active" : ""
                   }`}
                 >
                   <img
                     src="/fi-rr-cube.svg"
                     alt=""
-                    className="d-flex d-lg-none me-4"
+                    className="d-flex me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Storages</p>
+                  <p className="d-flex me-auto my-auto">Storages</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
                   to="/item-scan"
-                  className={`py-lg-0 d-flex nav-link ${
+                  className={` d-flex nav-link ${
                     location.pathname === "/item-scan" ? "active" : ""
                   }`}
                 >
-                  <img
-                    src="/camera.svg"
-                    alt=""
-                    className="d-flex d-lg-none me-4"
-                  />
-                  <p className="d-flex my-auto m-lg-0">Quick Add</p>
+                  <img src="/camera.svg" alt="" className="d-flex me-4" />
+                  <p className="d-flex my-auto me-auto ">Quick Add</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
                   to="/cooking"
-                  className={`py-lg-0 d-flex nav-link ${
+                  className={` d-flex nav-link ${
                     location.pathname === "/cooking" ? "active" : ""
                   }`}
                 >
@@ -137,16 +99,16 @@ export default function Navbar() {
                     src="/utensils.png"
                     style={{ width: "25px", height: "25px" }}
                     alt=""
-                    className="d-flex d-lg-none me-4"
+                    className="d-flex  me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Cooking</p>
+                  <p className="d-flex my-auto  me-auto">Cooking</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
                   to="/shopping"
-                  className={`py-lg-0 d-flex nav-link ${
+                  className={` d-flex nav-link ${
                     location.pathname === "/shopping" ? "active" : ""
                   }`}
                 >
@@ -154,16 +116,16 @@ export default function Navbar() {
                     src="/shopping-cart.png"
                     style={{ width: "25px", height: "25px" }}
                     alt=""
-                    className="d-flex d-lg-none me-4"
+                    className="d-flex me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Shopping</p>
+                  <p className="d-flex my-auto me-auto ">Shopping</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
                   to="/profile"
-                  className={`pt-sm-0 py-lg-0 d-flex nav-link ${
+                  className={`pt-sm-0  d-flex nav-link ${
                     location.pathname === "/profile" ? "active" : ""
                   }`}
                 >
@@ -171,40 +133,31 @@ export default function Navbar() {
                     src="/user.png"
                     alt=""
                     style={{ width: "25px", height: "25px" }}
-                    className="d-flex d-lg-none me-4"
+                    className="d-flex me-4"
                   />
-                  <p className="d-flex my-auto m-lg-0">Profile</p>
+                  <p className="d-flex my-auto me-auto ">Profile</p>
                 </Link>
               </li>
 
               {/* Render navlink for large screen and btn for small so it looks good */}
-              <li className="nav-item align-self-center mt-lg-0 mt-5">
-                <button
-                  onClick={handleLogout}
-                  className="nav-link d-lg-flex align-items-center justify-content-center mt-lg-0 mt-5 rounded-pill py-lg-0 d-none"
-                >
-                  <img
-                    src="/logout-btn.png"
-                    alt=""
-                    className="d-inline-block me-2 d-lg-none"
-                    style={{ width: "25px", height: "25px" }}
-                  />
-                  <p className="d-flex my-auto m-lg-0">Log out</p>
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-primary d-flex d-lg-none align-items-center justify-content-center mt-lg-0 mt-5 rounded-pill py-lg-0"
-                >
-                  <img
-                    src="/logout-btn.png"
-                    alt=""
-                    className="d-inline-block me-2 d-lg-none d-"
-                    style={{ width: "25px", height: "25px" }}
-                  />
-                  <p className="d-flex my-auto m-lg-0">Log out</p>
-                </button>
-              </li>
             </ul>
+            <div
+              className="d-flex justify-content-center mb-4"
+              style={{ marginTop: "13svh" }}
+            >
+              <button
+                onClick={handleLogout}
+                className="btn btn-primary rounded-pill d-flex"
+              >
+                <img
+                  src="/logout-btn.png"
+                  alt=""
+                  className="d-inline-block me-2 "
+                  style={{ width: "25px", height: "25px" }}
+                />
+                <p className="d-flex my-auto ">Log out</p>
+              </button>
+            </div>
           </div>
         </div>
       </div>
