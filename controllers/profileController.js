@@ -1,5 +1,5 @@
 const User = require("../models/user"); // Assuming User model file path
-const { generateNewToken } = require("../controllers/authController");
+const { generateNewToken } = require("./authController");
 
 const getUserDetails = async (req, res) => {
   try {
