@@ -140,7 +140,7 @@ export default function ItemScanList() {
   }
 
   return (
-    <div className="container-fluid text-center" style={{height: "calc(100vh - 57px - 65px)"}}>
+    <div className="container-fluid text-center" style={{height: "calc(100svh - 57px - 65px)"}}>
       <input
         className="form-control mt-4 bg-secondary w-75 mx-auto rounded-4"
         type="file"
