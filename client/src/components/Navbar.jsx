@@ -6,7 +6,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:8080/api/user/logout", {
+      await fetch("/api/user/logout", {
         method: "POST",
         credentials: "include", // Include credentials for cross-origin requests
       });

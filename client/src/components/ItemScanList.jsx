@@ -12,7 +12,7 @@ export default function ItemScanList() {
   // Function to handle image upload and OCR processing
   function handleChange(e) {
     const selectedFile = e.target.files[0];
- 
+
     setFile(URL.createObjectURL(selectedFile));
 
     if (selectedFile) {
@@ -20,8 +20,6 @@ export default function ItemScanList() {
       setBackendResponse([]);
       setLoading(true);
       Tesseract.recognize(selectedFile, "eng").then(({ data: { text } }) => {
-    
-
         // Send the extracted text to your backend
         fetch("/api/process-text", {
           method: "POST",
@@ -37,10 +35,8 @@ export default function ItemScanList() {
             return response.json();
           })
           .then((data) => {
-          
             // Check if 'items' property exists in the response
             if (data.items) {
-             
               // Set the backend response to the state
               setBackendResponse(data.items);
             } else {
@@ -50,7 +46,7 @@ export default function ItemScanList() {
             }
           })
           .catch(() => {
-           alert("Error receiving data from backend");
+            alert("Error receiving data from backend");
           })
           .finally(() => {
             setLoading(false); // Set loading state to false when processing finishes
@@ -140,79 +136,94 @@ export default function ItemScanList() {
   }
 
   return (
-    <div className="container-fluid text-center" style={{height: "calc(100svh - 57px - 65px)"}}>
-      <input
-        className="form-control mt-4 bg-secondary w-75 mx-auto rounded-4"
-        type="file"
-        capture="user"
-        accept="image/*"
-        onChange={handleChange}
-      />
-      <div>
-        <h4 className="mt-3">Items Found in Receipt</h4>
+    <>
+      <div
+        className="container-fluid text-center"
+        style={{ height: "calc(100svh - 57px - 200px)" }}
+      >
+        <input
+          className="form-control mt-4 bg-secondary w-75 mx-auto rounded-4"
+          type="file"
+          capture="user"
+          accept="image/*"
+          onChange={handleChange}
+        />
+        <div>
+          <h4 className="mt-3">Items Found in Receipt</h4>
+        </div>
+        <div
+          className="container"
+          style={{ height: "50svh", overflowY: "auto" }}
+        >
+          {loading ? ( // Conditional rendering for the spinner while loading
+            <div className="d-flex justify-content-center mt-5">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            backendResponse.map((item, index) => (
+              <ItemCard
+                key={index}
+                item={item}
+                index={index}
+                onUpdate={handleUpdateItem}
+                onDelete={() => handleDelete(index)}
+              />
+            ))
+          )}
+        </div>
       </div>
-      <div className="container" style={{ height: "51vh", overflowY: "auto" }}>
-        {loading ? ( // Conditional rendering for the spinner while loading
-          <div className="d-flex justify-content-center mt-5">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
+      <div className="d-flex justify-content-center flex-column align-items-center">
+        <div>
+          <div className="dropup my-2 mx-auto d-flex align-self-center">
+            <button
+              className="btn btn-secondary border-dark-subtle rounded-4 w-100 mt-1 py-2"
+              type="button"
+              id="storageDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style={{ maxWidth: "200px" }}
+            >
+              <p className="m-0 p-0 dropdown-toggle">
+                {selectedStorage
+                  ? capitalizeFirstLetter(selectedStorage.name)
+                  : "Select Storage"}
+              </p>
+            </button>
+            <ul
+              className="dropdown-menu bg-primary p-0 text-center w-50 rounded-4"
+              aria-labelledby="storageDropdown"
+              style={{
+                maxHeight: "10rem",
+                overflowY: "auto",
+                bottom: "100%",
+                width: "130px",
+                minWidth: "130px",
+                maxWidth: "200px",
+              }}
+            >
+              {storages.map((storage, index) => (
+                <li key={index}>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => setSelectedStorage(storage)}
+                  >
+                    <p className="m-0">{capitalizeFirstLetter(storage.name)}</p>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-        ) : (
-          backendResponse.map((item, index) => (
-            <ItemCard
-              key={index}
-              item={item}
-              index={index}
-              onUpdate={handleUpdateItem}
-              onDelete={() => handleDelete(index)}
-            />
-          ))
-        )}
-      </div>
-      <div className="dropup my-2 mt-lg-4 mt-2">
         <button
-          className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-1 py-2"
-          type="button"
-          id="storageDropdown"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style={{maxWidth: "200px"}}
+          className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-2 py-2 mx-auto"
+          onClick={handleAddItems}
+          style={{ maxWidth: "200px" }}
         >
-          <p className="m-0 p-0 dropdown-toggle">
-            {selectedStorage
-              ? capitalizeFirstLetter(selectedStorage.name)
-              : "Select Storage"}
-          </p>
+          <h6 className="m-0">Add Items</h6>
         </button>
-        <ul
-          className="dropdown-menu bg-primary p-0 text-center w-50 rounded-4"
-          aria-labelledby="storageDropdown"
-          style={{
-            maxHeight: "10rem",
-            overflowY: "auto",
-            bottom: "100%",
-            width: "130px",
-            minWidth: "130px",
-            maxWidth: "200px"
-          }}
-        >
-          {storages.map((storage, index) => (
-            <li key={index}>
-              <button
-                className="dropdown-item"
-                onClick={() => setSelectedStorage(storage)}
-              >
-                <p className="m-0">{capitalizeFirstLetter(storage.name)}</p>
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
-
-      <button className="btn btn-secondary border-dark-subtle rounded-4 w-50 mt-4 py-2" onClick={handleAddItems} style={{maxWidth: "200px"}}>
-        <h6 className="m-0">Add Items</h6>
-      </button>
-    </div>
+    </>
   );
 }

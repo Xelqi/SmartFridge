@@ -43,7 +43,7 @@ h6, input {
 
 @media (min-width: 768px) {
   .nav-link.active p {
-    color: white !important;
+    color: #fe724c !important;
     transform: scale(1.1); /* Scale the icon slightly bigger on hover */
   }
 }
