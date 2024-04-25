@@ -11,7 +11,7 @@ they can directly add the items they need to their shopping list minimising food
 money using items they have. The application allows for shared storages making it perfect for
 households whether coordinating meal plans to delegating grocery responsibilities.
 ## Set Up
-Navigate into the client folder and run *npm i*
-This will install all your dependecies on the client side
-Then navigate in a new terminal to the server folder and run *npm i*
-Then in each terminal you can run *npm run dev* which will start the front-end and then on the back-end the express server
+Navigate into the client folder and run *npm i* <br/>
+This will install all your dependecies on the client side<br/>
+Then navigate in a new terminal to the server folder and run *npm i*<br/>
+Then in each terminal you can run *npm run dev* which will start the front-end and then on the back-end the express server<br/>
